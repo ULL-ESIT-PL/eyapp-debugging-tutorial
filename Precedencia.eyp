@@ -8,7 +8,10 @@ compile it with
 
 execute the generated modulino with:
 
-      ./Precedencia.pm -nos -c '2@3@4' -info 
+      ./Precedencia.pm -noslurp -c '2@3@4' -info  --margin 2
+
+or:
+      ./Precedencia.pm --debug --noslurp -c '2@3@4' -info  --margin 2
 
 Try also with inputs:
    
@@ -30,7 +33,7 @@ our $VERSION = '0.02';
 
 %}
 
-%token NUM
+%token NUM = /\d+/
 %left '@'
 %right '&'  dummy
 
@@ -55,7 +58,8 @@ e : %name NUM
 
 %%
 
-# __PACKAGE__->lexer( \&Math::Tail::lex); 
+# We can explicit a lexer if we want:
+
 __PACKAGE__->lexer(
     sub {
       my $parser = shift;
@@ -68,11 +72,11 @@ __PACKAGE__->lexer(
   
         m{\G(.)}gc                     and return ($1,    $1);
   
-        return('',undef);
+        return('',undef);              # EOF
       }
     }
   );
 
-__PACKAGE__->main('Input (try st. like 2@3&4<CR><CTRL-D>): ') unless caller();
+# __PACKAGE__->main('Input (try st. like 2@3&4<CR><CTRL-D>): ') unless caller();
 
 1;

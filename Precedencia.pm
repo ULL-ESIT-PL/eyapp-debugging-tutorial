@@ -36,11 +36,14 @@ sub unexpendedInput { defined($_) ? substr($_, (defined(pos $_) ? pos $_ : 0)) :
 Be sure Math::Tail in examples/Calculator/lib is reachable
 compile it with 
 
-  eyapp -b '/usr/bin/perl -I ../Calculator/lib' Precedencia.eyp
+  eyapp -C Precedencia.eyp 
 
 execute the generated modulino with:
 
-      ./Precedencia.pm -nos -c '2@3@4' -info 
+      ./Precedencia.pm -noslurp -c '2@3@4' -info  --margin 2
+
+or:
+      ./Precedencia.pm --debug --noslurp -c '2@3@4' -info  --margin 2
 
 Try also with inputs:
    
@@ -58,8 +61,7 @@ Abstract Syntax Tree
 
 =cut
 
-our $VERSION = '0.01';
-#use base q{Math::Tail};
+our $VERSION = '0.02';
 
 
 
@@ -75,7 +77,7 @@ our $LEX = sub {
 
       m{\G(\n|\&|\@)}gc and return ($1, $1);
 
-      /\G(NUM)/gc and return ($1, $1);
+      /\G\d+/gc and return ('NUM', $1);
 
 
       return ('', undef) if ($_ eq '') || (defined(pos($_)) && (pos($_) >= length($_)));
@@ -92,7 +94,7 @@ our $LEX = sub {
 ;
 
 
-#line 94 ./Precedencia.pm
+#line 96 ./Precedencia.pm
 
 my $warnmessage =<< "EOFWARN";
 Warning!: Did you changed the \@Precedencia::ISA variable inside the header section of the eyapp program?
@@ -145,26 +147,26 @@ sub new {
 	},
 	{#State 1
 		ACTIONS => {
-			"\n" => 3,
 			'NUM' => 2,
-			'' => 5
+			'' => 5,
+			"\n" => 4
 		},
 		GOTOS => {
-			'e' => 4
+			'e' => 3
 		}
 	},
 	{#State 2
 		DEFAULT => -4
 	},
 	{#State 3
-		DEFAULT => -2
-	},
-	{#State 4
 		ACTIONS => {
-			"\@" => 6,
-			"&" => 7
+			"&" => 7,
+			"\@" => 6
 		},
 		DEFAULT => -3
+	},
+	{#State 4
+		DEFAULT => -2
 	},
 	{#State 5
 		DEFAULT => 0
@@ -202,55 +204,55 @@ sub new {
 [
 	[#Rule _SUPERSTART
 		 '$start', 2, undef
-#line 204 ./Precedencia.pm
+#line 206 ./Precedencia.pm
 	],
 	[#Rule list_1
 		 'list', 0,
 sub {
-#line 38 "Precedencia.eyp"
+#line 40 "Precedencia.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 211 ./Precedencia.pm
+#line 213 ./Precedencia.pm
 	],
 	[#Rule list_2
 		 'list', 2,
 sub {
-#line 42 "Precedencia.eyp"
+#line 44 "Precedencia.eyp"
 }
-#line 218 ./Precedencia.pm
+#line 220 ./Precedencia.pm
 	],
 	[#Rule list_3
 		 'list', 2,
 sub {
-#line 43 "Precedencia.eyp"
-my $e = $_[2]; my $list = $_[1];  print $e->str."\n"; 
+#line 45 "Precedencia.eyp"
+my $list = $_[1]; my $e = $_[2];  print $e->str."\n"; 
                  $e->png(); 
                  $e; 
                }
-#line 228 ./Precedencia.pm
+#line 230 ./Precedencia.pm
 	],
 	[#Rule NUM
 		 'e', 1,
 sub {
-#line 38 "Precedencia.eyp"
+#line 40 "Precedencia.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 235 ./Precedencia.pm
+#line 237 ./Precedencia.pm
 	],
 	[#Rule AMPERSAND
 		 'e', 3,
 sub {
-#line 38 "Precedencia.eyp"
+#line 40 "Precedencia.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 242 ./Precedencia.pm
+#line 244 ./Precedencia.pm
 	],
 	[#Rule AT
 		 'e', 3,
 sub {
-#line 38 "Precedencia.eyp"
+#line 40 "Precedencia.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 249 ./Precedencia.pm
+#line 251 ./Precedencia.pm
 	]
 ],
-#line 252 ./Precedencia.pm
+#line 254 ./Precedencia.pm
     yybypass       => 1,
     yybuildingtree => 1,
     yyprefix       => '',
@@ -274,10 +276,11 @@ sub {
   $self;
 }
 
-#line 57 "Precedencia.eyp"
+#line 59 "Precedencia.eyp"
 
 
-# __PACKAGE__->lexer( \&Math::Tail::lex); 
+# We can explicit a lexer if we want:
+
 __PACKAGE__->lexer(
     sub {
       my $parser = shift;
@@ -290,12 +293,12 @@ __PACKAGE__->lexer(
   
         m{\G(.)}gc                     and return ($1,    $1);
   
-        return('',undef);
+        return('',undef);              # EOF
       }
     }
   );
 
-__PACKAGE__->main('Input (try st. like 2@3&4<CR><CTRL-D>): ') unless caller();
+# __PACKAGE__->main('Input (try st. like 2@3&4<CR><CTRL-D>): ') unless caller();
 
 1;
 
@@ -305,7 +308,7 @@ __PACKAGE__->main('Input (try st. like 2@3&4<CR><CTRL-D>): ') unless caller();
 =cut
 
 
-#line 307 ./Precedencia.pm
+#line 310 ./Precedencia.pm
 
 unless (caller) {
   exit !__PACKAGE__->main('');
