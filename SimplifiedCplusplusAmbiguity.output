@@ -1,0 +1,281 @@
+Warnings:
+---------
+1 reduce/reduce conflict
+Conflicts:
+----------
+Conflict in state 15 between rule 8 and token '+' resolved as reduce.
+Conflict in state 15 between rule 8 and token '=' resolved as reduce.
+Conflict in state 17 between rule 9 and token '+' resolved as shift.
+Conflict in state 17 between rule 9 and token '=' resolved as shift.
+State 18 contains 1 reduce/reduce conflict
+
+Rules:
+------
+0:	$start -> prog $end
+1:	prog -> /* empty */
+2:	prog -> prog stmt
+3:	stmt -> expr ';'
+4:	stmt -> decl
+5:	expr -> ID
+6:	expr -> NUM
+7:	expr -> INT '(' expr ')'
+8:	expr -> expr '+' expr
+9:	expr -> expr '=' expr
+10:	decl -> INT declarator ';'
+11:	decl -> INT declarator '=' expr ';'
+12:	declarator -> ID
+13:	declarator -> '(' declarator ')'
+
+States:
+-------
+State 0:
+
+	$start -> . prog $end	(Rule 0)
+
+	$default	reduce using rule 1 (prog)
+
+	prog	go to state 1
+
+State 1:
+
+	$start -> prog . $end	(Rule 0)
+	prog -> prog . stmt	(Rule 2)
+
+	$end	shift, and go to state 5
+	ID	shift, and go to state 3
+	INT	shift, and go to state 8
+	NUM	shift, and go to state 2
+
+	stmt	go to state 4
+	expr	go to state 7
+	decl	go to state 6
+
+State 2:
+
+	expr -> NUM .	(Rule 6)
+
+	$default	reduce using rule 6 (expr)
+
+State 3:
+
+	expr -> ID .	(Rule 5)
+
+	$default	reduce using rule 5 (expr)
+
+State 4:
+
+	prog -> prog stmt .	(Rule 2)
+
+	$default	reduce using rule 2 (prog)
+
+State 5:
+
+	$start -> prog $end .	(Rule 0)
+
+	$default	accept
+
+State 6:
+
+	stmt -> decl .	(Rule 4)
+
+	$default	reduce using rule 4 (stmt)
+
+State 7:
+
+	stmt -> expr . ';'	(Rule 3)
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '=' expr	(Rule 9)
+
+	'+'	shift, and go to state 9
+	';'	shift, and go to state 10
+	'='	shift, and go to state 11
+
+State 8:
+
+	expr -> INT . '(' expr ')'	(Rule 7)
+	decl -> INT . declarator ';'	(Rule 10)
+	decl -> INT . declarator '=' expr ';'	(Rule 11)
+
+	'('	shift, and go to state 13
+	ID	shift, and go to state 12
+
+	declarator	go to state 14
+
+State 9:
+
+	expr -> expr '+' . expr	(Rule 8)
+
+	ID	shift, and go to state 3
+	INT	shift, and go to state 16
+	NUM	shift, and go to state 2
+
+	expr	go to state 15
+
+State 10:
+
+	stmt -> expr ';' .	(Rule 3)
+
+	$default	reduce using rule 3 (stmt)
+
+State 11:
+
+	expr -> expr '=' . expr	(Rule 9)
+
+	ID	shift, and go to state 3
+	INT	shift, and go to state 16
+	NUM	shift, and go to state 2
+
+	expr	go to state 17
+
+State 12:
+
+	declarator -> ID .	(Rule 12)
+
+	$default	reduce using rule 12 (declarator)
+
+State 13:
+
+	expr -> INT '(' . expr ')'	(Rule 7)
+	declarator -> '(' . declarator ')'	(Rule 13)
+
+	'('	shift, and go to state 19
+	ID	shift, and go to state 18
+	INT	shift, and go to state 16
+	NUM	shift, and go to state 2
+
+	expr	go to state 20
+	declarator	go to state 21
+
+State 14:
+
+	decl -> INT declarator . ';'	(Rule 10)
+	decl -> INT declarator . '=' expr ';'	(Rule 11)
+
+	';'	shift, and go to state 22
+	'='	shift, and go to state 23
+
+State 15:
+
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr '+' expr .	(Rule 8)
+	expr -> expr . '=' expr	(Rule 9)
+
+	')'	reduce using rule 8 (expr)
+	'+'	reduce using rule 8 (expr)
+	';'	reduce using rule 8 (expr)
+	'='	reduce using rule 8 (expr)
+
+State 16:
+
+	expr -> INT . '(' expr ')'	(Rule 7)
+
+	'('	shift, and go to state 24
+
+State 17:
+
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '=' expr	(Rule 9)
+	expr -> expr '=' expr .	(Rule 9)
+
+	'+'	shift, and go to state 9
+	'='	shift, and go to state 11
+
+	')'	reduce using rule 9 (expr)
+	';'	reduce using rule 9 (expr)
+
+State 18:
+
+	expr -> ID .	(Rule 5)
+	declarator -> ID .	(Rule 12)
+
+	')'	[reduce using rule 12 (declarator)]
+	')'	reduce using rule 5 (expr)
+	'+'	reduce using rule 5 (expr)
+	'='	reduce using rule 5 (expr)
+
+State 19:
+
+	declarator -> '(' . declarator ')'	(Rule 13)
+
+	'('	shift, and go to state 19
+	ID	shift, and go to state 12
+
+	declarator	go to state 21
+
+State 20:
+
+	expr -> INT '(' expr . ')'	(Rule 7)
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '=' expr	(Rule 9)
+
+	')'	shift, and go to state 25
+	'+'	shift, and go to state 9
+	'='	shift, and go to state 11
+
+State 21:
+
+	declarator -> '(' declarator . ')'	(Rule 13)
+
+	')'	shift, and go to state 26
+
+State 22:
+
+	decl -> INT declarator ';' .	(Rule 10)
+
+	$default	reduce using rule 10 (decl)
+
+State 23:
+
+	decl -> INT declarator '=' . expr ';'	(Rule 11)
+
+	ID	shift, and go to state 3
+	INT	shift, and go to state 16
+	NUM	shift, and go to state 2
+
+	expr	go to state 27
+
+State 24:
+
+	expr -> INT '(' . expr ')'	(Rule 7)
+
+	ID	shift, and go to state 3
+	INT	shift, and go to state 16
+	NUM	shift, and go to state 2
+
+	expr	go to state 20
+
+State 25:
+
+	expr -> INT '(' expr ')' .	(Rule 7)
+
+	$default	reduce using rule 7 (expr)
+
+State 26:
+
+	declarator -> '(' declarator ')' .	(Rule 13)
+
+	$default	reduce using rule 13 (declarator)
+
+State 27:
+
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '=' expr	(Rule 9)
+	decl -> INT declarator '=' expr . ';'	(Rule 11)
+
+	'+'	shift, and go to state 9
+	';'	shift, and go to state 28
+	'='	shift, and go to state 11
+
+State 28:
+
+	decl -> INT declarator '=' expr ';' .	(Rule 11)
+
+	$default	reduce using rule 11 (decl)
+
+
+Summary:
+--------
+Number of rules         : 14
+Number of terminals     : 9
+Number of non-terminals : 6
+Number of states        : 29

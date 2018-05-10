@@ -1,0 +1,107 @@
+Warnings:
+---------
+1 reduce/reduce conflict
+Conflicts:
+----------
+State 9 contains 1 reduce/reduce conflict
+
+Rules:
+------
+0:	$start -> A $end
+1:	A -> B 'c' 'd'
+2:	A -> E 'c' 'f'
+3:	B -> 'x' 'y' DORF
+4:	E -> 'x' 'y' DORF
+5:	DORF -> /* empty */
+
+States:
+-------
+State 0:
+
+	$start -> . A $end	(Rule 0)
+
+	'x'	shift, and go to state 1
+
+	A	go to state 2
+	B	go to state 4
+	E	go to state 3
+
+State 1:
+
+	B -> 'x' . 'y' DORF	(Rule 3)
+	E -> 'x' . 'y' DORF	(Rule 4)
+
+	'y'	shift, and go to state 5
+
+State 2:
+
+	$start -> A . $end	(Rule 0)
+
+	$end	shift, and go to state 6
+
+State 3:
+
+	A -> E . 'c' 'f'	(Rule 2)
+
+	'c'	shift, and go to state 7
+
+State 4:
+
+	A -> B . 'c' 'd'	(Rule 1)
+
+	'c'	shift, and go to state 8
+
+State 5:
+
+	B -> 'x' 'y' . DORF	(Rule 3)
+	E -> 'x' 'y' . DORF	(Rule 4)
+
+	$default	reduce using rule 5 (DORF)
+
+	DORF	go to state 9
+
+State 6:
+
+	$start -> A $end .	(Rule 0)
+
+	$default	accept
+
+State 7:
+
+	A -> E 'c' . 'f'	(Rule 2)
+
+	'f'	shift, and go to state 10
+
+State 8:
+
+	A -> B 'c' . 'd'	(Rule 1)
+
+	'd'	shift, and go to state 11
+
+State 9:
+
+	B -> 'x' 'y' DORF .	(Rule 3)
+	E -> 'x' 'y' DORF .	(Rule 4)
+
+	'c'	[reduce using rule 4 (E)]
+	'c'	reduce using rule 3 (B)
+
+State 10:
+
+	A -> E 'c' 'f' .	(Rule 2)
+
+	$default	reduce using rule 2 (A)
+
+State 11:
+
+	A -> B 'c' 'd' .	(Rule 1)
+
+	$default	reduce using rule 1 (A)
+
+
+Summary:
+--------
+Number of rules         : 6
+Number of terminals     : 6
+Number of non-terminals : 5
+Number of states        : 12

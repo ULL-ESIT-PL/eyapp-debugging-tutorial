@@ -1,0 +1,119 @@
+Conflicts:
+----------
+Conflict in state 8 between rule 6 and token '@' resolved as reduce.
+Conflict in state 8 between rule 6 and token '&' resolved as shift.
+Conflict in state 9 between rule 5 and token '@' resolved as reduce.
+Conflict in state 9 between rule 5 and token '&' resolved as shift.
+
+Rules:
+------
+0:	$start -> list $end
+1:	list -> /* empty */
+2:	list -> list '\n'
+3:	list -> list e
+4:	e -> NUM
+5:	e -> e '&' e
+6:	e -> e '@' e
+
+States:
+-------
+State 0:
+
+	$start -> . list $end	(Rule 0)
+
+	$default	reduce using rule 1 (list)
+
+	list	go to state 1
+
+State 1:
+
+	$start -> list . $end	(Rule 0)
+	list -> list . '\n'	(Rule 2)
+	list -> list . e	(Rule 3)
+
+	$end	shift, and go to state 4
+	'\n'	shift, and go to state 5
+	NUM	shift, and go to state 2
+
+	e	go to state 3
+
+State 2:
+
+	e -> NUM .	(Rule 4)
+
+	$default	reduce using rule 4 (e)
+
+State 3:
+
+	list -> list e .	(Rule 3)
+	e -> e . '&' e	(Rule 5)
+	e -> e . '@' e	(Rule 6)
+
+	'&'	shift, and go to state 7
+	'@'	shift, and go to state 6
+
+	$end	reduce using rule 3 (list)
+	'\n'	reduce using rule 3 (list)
+	NUM	reduce using rule 3 (list)
+
+State 4:
+
+	$start -> list $end .	(Rule 0)
+
+	$default	accept
+
+State 5:
+
+	list -> list '\n' .	(Rule 2)
+
+	$default	reduce using rule 2 (list)
+
+State 6:
+
+	e -> e '@' . e	(Rule 6)
+
+	NUM	shift, and go to state 2
+
+	e	go to state 8
+
+State 7:
+
+	e -> e '&' . e	(Rule 5)
+
+	NUM	shift, and go to state 2
+
+	e	go to state 9
+
+State 8:
+
+	e -> e . '&' e	(Rule 5)
+	e -> e . '@' e	(Rule 6)
+	e -> e '@' e .	(Rule 6)
+
+	'&'	shift, and go to state 7
+
+	$end	reduce using rule 6 (e)
+	'@'	reduce using rule 6 (e)
+	'\n'	reduce using rule 6 (e)
+	NUM	reduce using rule 6 (e)
+
+State 9:
+
+	e -> e . '&' e	(Rule 5)
+	e -> e '&' e .	(Rule 5)
+	e -> e . '@' e	(Rule 6)
+
+	'&'	shift, and go to state 7
+
+	$end	reduce using rule 5 (e)
+	'@'	reduce using rule 5 (e)
+	'\n'	reduce using rule 5 (e)
+	NUM	reduce using rule 5 (e)
+
+
+Summary:
+--------
+Number of rules         : 7
+Number of terminals     : 6
+Number of non-terminals : 3
+Number of states        : 10

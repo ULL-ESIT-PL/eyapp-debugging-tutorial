@@ -1,0 +1,421 @@
+Warnings:
+---------
+Unused terminals:
+
+	rangeORenum, declared line 5
+
+Useless non-terminals:
+
+	rangeORenum, declared line 5
+
+
+Conflicts:
+----------
+Conflict in state 27 between rule 9 and token '-' resolved as reduce.
+Conflict in state 27 between rule 9 and token '+' resolved as reduce.
+Conflict in state 27 between rule 9 and token '/' resolved as shift.
+Conflict in state 27 between rule 9 and token ',' resolved as reduce.
+Conflict in state 27 between rule 9 and token '*' resolved as shift.
+Conflict in state 29 between rule 10 and token '-' resolved as reduce.
+Conflict in state 29 between rule 10 and token '+' resolved as reduce.
+Conflict in state 29 between rule 10 and token '/' resolved as reduce.
+Conflict in state 29 between rule 10 and token ',' resolved as reduce.
+Conflict in state 29 between rule 10 and token '*' resolved as reduce.
+Conflict in state 30 between rule 8 and token '-' resolved as reduce.
+Conflict in state 30 between rule 8 and token '+' resolved as reduce.
+Conflict in state 30 between rule 8 and token '/' resolved as shift.
+Conflict in state 30 between rule 8 and token ',' resolved as reduce.
+Conflict in state 30 between rule 8 and token '*' resolved as shift.
+Conflict in state 31 between rule 12 and token '-' resolved as shift.
+Conflict in state 31 between rule 12 and token '+' resolved as shift.
+Conflict in state 31 between rule 12 and token '/' resolved as shift.
+Conflict in state 31 between rule 12 and token ',' resolved as reduce.
+Conflict in state 31 between rule 12 and token '*' resolved as shift.
+Conflict in state 32 between rule 11 and token '-' resolved as reduce.
+Conflict in state 32 between rule 11 and token '+' resolved as reduce.
+Conflict in state 32 between rule 11 and token '/' resolved as reduce.
+Conflict in state 32 between rule 11 and token ',' resolved as reduce.
+Conflict in state 32 between rule 11 and token '*' resolved as reduce.
+State 14 contains 2 reduce/reduce conflicts
+
+Rules:
+------
+0:	$start -> type_decl $end
+1:	type_decl -> 'type' ID '=' type ';'
+2:	type -> rangeORenum_explorer '(' id_list ')'
+3:	type -> rangeORenum_explorer range
+4:	range -> expr '..' expr
+5:	id_list -> ID
+6:	id_list -> id_list ',' ID
+7:	expr -> '(' expr ')'
+8:	expr -> expr '+' expr
+9:	expr -> expr '-' expr
+10:	expr -> expr '*' expr
+11:	expr -> expr '/' expr
+12:	expr -> expr ',' expr
+13:	expr -> ID
+14:	expr -> NUM
+15:	rangeORenum_explorer -> /* empty */
+
+States:
+-------
+State 0:
+
+	$start -> . type_decl $end	(Rule 0)
+
+	'type'	shift, and go to state 2
+
+	type_decl	go to state 1
+
+State 1:
+
+	$start -> type_decl . $end	(Rule 0)
+
+	$end	shift, and go to state 3
+
+State 2:
+
+	type_decl -> 'type' . ID '=' type ';'	(Rule 1)
+
+	ID	shift, and go to state 4
+
+State 3:
+
+	$start -> type_decl $end .	(Rule 0)
+
+	$default	accept
+
+State 4:
+
+	type_decl -> 'type' ID . '=' type ';'	(Rule 1)
+
+	'='	shift, and go to state 5
+
+State 5:
+
+	type_decl -> 'type' ID '=' . type ';'	(Rule 1)
+
+	$default	reduce using rule 15 (rangeORenum_explorer)
+
+	rangeORenum_explorer	go to state 6
+	type	go to state 7
+
+State 6:
+
+	type -> rangeORenum_explorer . '(' id_list ')'	(Rule 2)
+	type -> rangeORenum_explorer . range	(Rule 3)
+
+	'('	shift, and go to state 10
+	ID	shift, and go to state 9
+	NUM	shift, and go to state 8
+
+	expr	go to state 11
+	range	go to state 12
+
+State 7:
+
+	type_decl -> 'type' ID '=' type . ';'	(Rule 1)
+
+	';'	shift, and go to state 13
+
+State 8:
+
+	expr -> NUM .	(Rule 14)
+
+	$default	reduce using rule 14 (expr)
+
+State 9:
+
+	expr -> ID .	(Rule 13)
+
+	$default	reduce using rule 13 (expr)
+
+State 10:
+
+	type -> rangeORenum_explorer '(' . id_list ')'	(Rule 2)
+	expr -> '(' . expr ')'	(Rule 7)
+
+	'('	shift, and go to state 16
+	ID	shift, and go to state 14
+	NUM	shift, and go to state 8
+
+	id_list	go to state 15
+	expr	go to state 17
+
+State 11:
+
+	range -> expr . '..' expr	(Rule 4)
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '-' expr	(Rule 9)
+	expr -> expr . '*' expr	(Rule 10)
+	expr -> expr . '/' expr	(Rule 11)
+	expr -> expr . ',' expr	(Rule 12)
+
+	'*'	shift, and go to state 20
+	'+'	shift, and go to state 21
+	','	shift, and go to state 22
+	'-'	shift, and go to state 18
+	'..'	shift, and go to state 19
+	'/'	shift, and go to state 23
+
+State 12:
+
+	type -> rangeORenum_explorer range .	(Rule 3)
+
+	$default	reduce using rule 3 (type)
+
+State 13:
+
+	type_decl -> 'type' ID '=' type ';' .	(Rule 1)
+
+	$default	reduce using rule 1 (type_decl)
+
+State 14:
+
+	id_list -> ID .	(Rule 5)
+	expr -> ID .	(Rule 13)
+
+	')'	[reduce using rule 13 (expr)]
+	')'	reduce using rule 5 (id_list)
+	'*'	reduce using rule 13 (expr)
+	'+'	reduce using rule 13 (expr)
+	','	[reduce using rule 13 (expr)]
+	','	reduce using rule 5 (id_list)
+	'-'	reduce using rule 13 (expr)
+	'/'	reduce using rule 13 (expr)
+
+State 15:
+
+	type -> rangeORenum_explorer '(' id_list . ')'	(Rule 2)
+	id_list -> id_list . ',' ID	(Rule 6)
+
+	')'	shift, and go to state 25
+	','	shift, and go to state 24
+
+State 16:
+
+	expr -> '(' . expr ')'	(Rule 7)
+
+	'('	shift, and go to state 16
+	ID	shift, and go to state 9
+	NUM	shift, and go to state 8
+
+	expr	go to state 17
+
+State 17:
+
+	expr -> '(' expr . ')'	(Rule 7)
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '-' expr	(Rule 9)
+	expr -> expr . '*' expr	(Rule 10)
+	expr -> expr . '/' expr	(Rule 11)
+	expr -> expr . ',' expr	(Rule 12)
+
+	')'	shift, and go to state 26
+	'*'	shift, and go to state 20
+	'+'	shift, and go to state 21
+	','	shift, and go to state 22
+	'-'	shift, and go to state 18
+	'/'	shift, and go to state 23
+
+State 18:
+
+	expr -> expr '-' . expr	(Rule 9)
+
+	'('	shift, and go to state 16
+	ID	shift, and go to state 9
+	NUM	shift, and go to state 8
+
+	expr	go to state 27
+
+State 19:
+
+	range -> expr '..' . expr	(Rule 4)
+
+	'('	shift, and go to state 16
+	ID	shift, and go to state 9
+	NUM	shift, and go to state 8
+
+	expr	go to state 28
+
+State 20:
+
+	expr -> expr '*' . expr	(Rule 10)
+
+	'('	shift, and go to state 16
+	ID	shift, and go to state 9
+	NUM	shift, and go to state 8
+
+	expr	go to state 29
+
+State 21:
+
+	expr -> expr '+' . expr	(Rule 8)
+
+	'('	shift, and go to state 16
+	ID	shift, and go to state 9
+	NUM	shift, and go to state 8
+
+	expr	go to state 30
+
+State 22:
+
+	expr -> expr ',' . expr	(Rule 12)
+
+	'('	shift, and go to state 16
+	ID	shift, and go to state 9
+	NUM	shift, and go to state 8
+
+	expr	go to state 31
+
+State 23:
+
+	expr -> expr '/' . expr	(Rule 11)
+
+	'('	shift, and go to state 16
+	ID	shift, and go to state 9
+	NUM	shift, and go to state 8
+
+	expr	go to state 32
+
+State 24:
+
+	id_list -> id_list ',' . ID	(Rule 6)
+
+	ID	shift, and go to state 33
+
+State 25:
+
+	type -> rangeORenum_explorer '(' id_list ')' .	(Rule 2)
+
+	$default	reduce using rule 2 (type)
+
+State 26:
+
+	expr -> '(' expr ')' .	(Rule 7)
+
+	$default	reduce using rule 7 (expr)
+
+State 27:
+
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '-' expr	(Rule 9)
+	expr -> expr '-' expr .	(Rule 9)
+	expr -> expr . '*' expr	(Rule 10)
+	expr -> expr . '/' expr	(Rule 11)
+	expr -> expr . ',' expr	(Rule 12)
+
+	'*'	shift, and go to state 20
+	'/'	shift, and go to state 23
+
+	')'	reduce using rule 9 (expr)
+	'+'	reduce using rule 9 (expr)
+	','	reduce using rule 9 (expr)
+	'-'	reduce using rule 9 (expr)
+	'..'	reduce using rule 9 (expr)
+	';'	reduce using rule 9 (expr)
+
+State 28:
+
+	range -> expr '..' expr .	(Rule 4)
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '-' expr	(Rule 9)
+	expr -> expr . '*' expr	(Rule 10)
+	expr -> expr . '/' expr	(Rule 11)
+	expr -> expr . ',' expr	(Rule 12)
+
+	'*'	shift, and go to state 20
+	'+'	shift, and go to state 21
+	','	shift, and go to state 22
+	'-'	shift, and go to state 18
+	'/'	shift, and go to state 23
+
+	';'	reduce using rule 4 (range)
+
+State 29:
+
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '-' expr	(Rule 9)
+	expr -> expr . '*' expr	(Rule 10)
+	expr -> expr '*' expr .	(Rule 10)
+	expr -> expr . '/' expr	(Rule 11)
+	expr -> expr . ',' expr	(Rule 12)
+
+	')'	reduce using rule 10 (expr)
+	'*'	reduce using rule 10 (expr)
+	'+'	reduce using rule 10 (expr)
+	','	reduce using rule 10 (expr)
+	'-'	reduce using rule 10 (expr)
+	'..'	reduce using rule 10 (expr)
+	'/'	reduce using rule 10 (expr)
+	';'	reduce using rule 10 (expr)
+
+State 30:
+
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr '+' expr .	(Rule 8)
+	expr -> expr . '-' expr	(Rule 9)
+	expr -> expr . '*' expr	(Rule 10)
+	expr -> expr . '/' expr	(Rule 11)
+	expr -> expr . ',' expr	(Rule 12)
+
+	'*'	shift, and go to state 20
+	'/'	shift, and go to state 23
+
+	')'	reduce using rule 8 (expr)
+	'+'	reduce using rule 8 (expr)
+	','	reduce using rule 8 (expr)
+	'-'	reduce using rule 8 (expr)
+	'..'	reduce using rule 8 (expr)
+	';'	reduce using rule 8 (expr)
+
+State 31:
+
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '-' expr	(Rule 9)
+	expr -> expr . '*' expr	(Rule 10)
+	expr -> expr . '/' expr	(Rule 11)
+	expr -> expr . ',' expr	(Rule 12)
+	expr -> expr ',' expr .	(Rule 12)
+
+	'*'	shift, and go to state 20
+	'+'	shift, and go to state 21
+	'-'	shift, and go to state 18
+	'/'	shift, and go to state 23
+
+	')'	reduce using rule 12 (expr)
+	','	reduce using rule 12 (expr)
+	'..'	reduce using rule 12 (expr)
+	';'	reduce using rule 12 (expr)
+
+State 32:
+
+	expr -> expr . '+' expr	(Rule 8)
+	expr -> expr . '-' expr	(Rule 9)
+	expr -> expr . '*' expr	(Rule 10)
+	expr -> expr . '/' expr	(Rule 11)
+	expr -> expr '/' expr .	(Rule 11)
+	expr -> expr . ',' expr	(Rule 12)
+
+	')'	reduce using rule 11 (expr)
+	'*'	reduce using rule 11 (expr)
+	'+'	reduce using rule 11 (expr)
+	','	reduce using rule 11 (expr)
+	'-'	reduce using rule 11 (expr)
+	'..'	reduce using rule 11 (expr)
+	'/'	reduce using rule 11 (expr)
+	';'	reduce using rule 11 (expr)
+
+State 33:
+
+	id_list -> id_list ',' ID .	(Rule 6)
+
+	$default	reduce using rule 6 (id_list)
+
+
+Summary:
+--------
+Number of rules         : 16
+Number of terminals     : 14
+Number of non-terminals : 7
+Number of states        : 34

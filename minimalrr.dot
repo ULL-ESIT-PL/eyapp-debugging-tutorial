@@ -1,0 +1,18 @@
+digraph G {
+concentrate = true
+
+"$start -> s $end" [shape = doubleoctagon, fontcolor=blue, color=blue ]
+"s -> 'a'" [shape = box, fontcolor=blue, color=blue ]
+"s -> A" [shape = box, fontcolor=blue, color=blue ]
+"A -> 'a'" [shape = box, fontcolor=blue, color=blue ]
+0 -> 2 [label = "'a'"]
+0 -> 1 [label = "A", arrowhead = odot, color = "red", fontcolor = "red"]
+0 -> 3 [label = "s", arrowhead = odot, color = "red", fontcolor = "red"]
+1 -> "s -> A" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+2 -> "s -> 'a'" [label = "$end", arrowhead=dot, color = "blue", fontcolor = "blue"]
+2 -> "A -> 'a'" [label = "$end", arrowhead=dot, color = "orange", fontcolor = "orange"]
+3 -> 4 [label = "$end"]
+4 [shape = doublecircle]
+4 -> "$start -> s $end" [arrowhead = dot, color = blue]
+
+}

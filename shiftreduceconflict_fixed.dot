@@ -1,0 +1,30 @@
+digraph G {
+concentrate = true
+
+"$start -> stmt $end" [label="0: $start -> stmt $end", shape = doubleoctagon, fontcolor=blue, color=blue ]
+"stmt -> IF expr THEN stmt" [label="1: stmt -> IF expr THEN stmt", shape = box, fontcolor=blue, color=blue ]
+"stmt -> IF expr THEN stmt ELSE stmt" [label="2: stmt -> IF expr THEN stmt ELSE stmt", shape = box, fontcolor=blue, color=blue ]
+"stmt -> OTHERSTMT" [label="3: stmt -> OTHERSTMT", shape = box, fontcolor=blue, color=blue ]
+"expr -> EXPR" [label="4: expr -> EXPR", shape = box, fontcolor=blue, color=blue ]
+0 -> 2 [label = "IF"]
+0 -> 3 [label = "OTHERSTMT"]
+0 -> 1 [label = "stmt", arrowhead = odot, color = "red", fontcolor = "red"]
+1 -> 4 [label = "$end"]
+2 -> 6 [label = "EXPR"]
+2 -> 5 [label = "expr", arrowhead = odot, color = "red", fontcolor = "red"]
+3 -> "stmt -> OTHERSTMT" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+4 [shape = doublecircle]
+4 -> "$start -> stmt $end" [arrowhead = dot, color = blue]
+5 -> 7 [label = "THEN"]
+6 -> "expr -> EXPR" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+7 -> 2 [label = "IF"]
+7 -> 3 [label = "OTHERSTMT"]
+7 -> 8 [label = "stmt", arrowhead = odot, color = "red", fontcolor = "red"]
+8 -> 9 [label = "ELSE"]
+8 -> "stmt -> IF expr THEN stmt" [label = "$end", arrowhead=dot, color = "blue", fontcolor = "blue"]
+9 -> 2 [label = "IF"]
+9 -> 3 [label = "OTHERSTMT"]
+9 -> 10 [label = "stmt", arrowhead = odot, color = "red", fontcolor = "red"]
+10 -> "stmt -> IF expr THEN stmt ELSE stmt" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+
+}

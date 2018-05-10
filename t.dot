@@ -1,0 +1,16 @@
+digraph G {
+ordering=out
+
+  0 [label = <IFTHEN>];
+  0 -> 01;
+  0 -> 02;
+  01 [label = <TERMINAL<font color="red">[e]</font>>];
+  02 [label = <IFTHENELSE>];
+  02 -> 021;
+  02 -> 022;
+  02 -> 023;
+  021 [label = <TERMINAL<font color="red">[E]</font>>];
+  022 [label = <TERMINAL<font color="red">[O]</font>>];
+  023 [label = <TERMINAL<font color="red">[o]</font>>];
+
+}

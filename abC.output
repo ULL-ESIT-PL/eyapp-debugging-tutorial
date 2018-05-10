@@ -1,0 +1,73 @@
+Rules:
+------
+0:	$start -> abC $end
+1:	abC -> ab 'c'
+2:	ab -> /* empty */
+3:	ab -> 'a' ab 'b'
+
+States:
+-------
+State 0:
+
+	$start -> . abC $end	(Rule 0)
+
+	'a'	shift, and go to state 2
+
+	'c'	reduce using rule 2 (ab)
+
+	ab	go to state 1
+	abC	go to state 3
+
+State 1:
+
+	abC -> ab . 'c'	(Rule 1)
+
+	'c'	shift, and go to state 4
+
+State 2:
+
+	ab -> 'a' . ab 'b'	(Rule 3)
+
+	'a'	shift, and go to state 2
+
+	'b'	reduce using rule 2 (ab)
+
+	ab	go to state 5
+
+State 3:
+
+	$start -> abC . $end	(Rule 0)
+
+		shift, and go to state 6
+
+State 4:
+
+	abC -> ab 'c' .	(Rule 1)
+
+	$default	reduce using rule 1 (abC)
+
+State 5:
+
+	ab -> 'a' ab . 'b'	(Rule 3)
+
+	'b'	shift, and go to state 7
+
+State 6:
+
+	$start -> abC $end .	(Rule 0)
+
+	$default	accept
+
+State 7:
+
+	ab -> 'a' ab 'b' .	(Rule 3)
+
+	$default	reduce using rule 3 (ab)
+
+
+Summary:
+--------
+Number of rules         : 4
+Number of terminals     : 4
+Number of non-terminals : 3
+Number of states        : 8

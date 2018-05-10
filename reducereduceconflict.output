@@ -1,0 +1,173 @@
+Warnings:
+---------
+1 reduce/reduce conflict
+Conflicts:
+----------
+State 2 contains 1 reduce/reduce conflict
+
+Rules:
+------
+0:	$start -> def $end
+1:	def -> param_spec return_spec ','
+2:	param_spec -> type
+3:	param_spec -> name_list ':' type
+4:	return_spec -> type
+5:	return_spec -> name ':' type
+6:	type -> VAR
+7:	name -> VAR
+8:	name_list -> name
+9:	name_list -> name ',' name_list
+
+States:
+-------
+State 0:
+
+	$start -> . def $end	(Rule 0)
+
+	VAR	shift, and go to state 2
+
+	param_spec	go to state 1
+	def	go to state 3
+	name_list	go to state 5
+	name	go to state 4
+	type	go to state 6
+
+State 1:
+
+	def -> param_spec . return_spec ','	(Rule 1)
+
+	VAR	shift, and go to state 2
+
+	name	go to state 7
+	return_spec	go to state 9
+	type	go to state 8
+
+State 2:
+
+	type -> VAR .	(Rule 6)
+	name -> VAR .	(Rule 7)
+
+	','	[reduce using rule 7 (name)]
+	','	reduce using rule 6 (type)
+	':'	reduce using rule 7 (name)
+	VAR	reduce using rule 6 (type)
+
+State 3:
+
+	$start -> def . $end	(Rule 0)
+
+	$end	shift, and go to state 10
+
+State 4:
+
+	name_list -> name .	(Rule 8)
+	name_list -> name . ',' name_list	(Rule 9)
+
+	','	shift, and go to state 11
+
+	':'	reduce using rule 8 (name_list)
+
+State 5:
+
+	param_spec -> name_list . ':' type	(Rule 3)
+
+	':'	shift, and go to state 12
+
+State 6:
+
+	param_spec -> type .	(Rule 2)
+
+	$default	reduce using rule 2 (param_spec)
+
+State 7:
+
+	return_spec -> name . ':' type	(Rule 5)
+
+	':'	shift, and go to state 13
+
+State 8:
+
+	return_spec -> type .	(Rule 4)
+
+	$default	reduce using rule 4 (return_spec)
+
+State 9:
+
+	def -> param_spec return_spec . ','	(Rule 1)
+
+	','	shift, and go to state 14
+
+State 10:
+
+	$start -> def $end .	(Rule 0)
+
+	$default	accept
+
+State 11:
+
+	name_list -> name ',' . name_list	(Rule 9)
+
+	VAR	shift, and go to state 15
+
+	name_list	go to state 16
+	name	go to state 4
+
+State 12:
+
+	param_spec -> name_list ':' . type	(Rule 3)
+
+	VAR	shift, and go to state 17
+
+	type	go to state 18
+
+State 13:
+
+	return_spec -> name ':' . type	(Rule 5)
+
+	VAR	shift, and go to state 17
+
+	type	go to state 19
+
+State 14:
+
+	def -> param_spec return_spec ',' .	(Rule 1)
+
+	$default	reduce using rule 1 (def)
+
+State 15:
+
+	name -> VAR .	(Rule 7)
+
+	$default	reduce using rule 7 (name)
+
+State 16:
+
+	name_list -> name ',' name_list .	(Rule 9)
+
+	$default	reduce using rule 9 (name_list)
+
+State 17:
+
+	type -> VAR .	(Rule 6)
+
+	$default	reduce using rule 6 (type)
+
+State 18:
+
+	param_spec -> name_list ':' type .	(Rule 3)
+
+	$default	reduce using rule 3 (param_spec)
+
+State 19:
+
+	return_spec -> name ':' type .	(Rule 5)
+
+	$default	reduce using rule 5 (return_spec)
+
+
+Summary:
+--------
+Number of rules         : 10
+Number of terminals     : 4
+Number of non-terminals : 7
+Number of states        : 20

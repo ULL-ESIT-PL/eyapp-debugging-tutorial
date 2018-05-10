@@ -1,0 +1,131 @@
+Warnings:
+---------
+1 shift/reduce conflict 
+Conflicts:
+----------
+State 9 contains 1 shift/reduce conflict
+
+Rules:
+------
+0:	$start -> T $end
+1:	T -> preproc S 'other'
+2:	preproc -> /* empty */
+3:	S -> x isInTheMiddle S x
+4:	S -> x isInTheMiddle
+5:	x -> NUM
+6:	x -> x OP NUM
+7:	isInTheMiddle -> /* empty */
+
+States:
+-------
+State 0:
+
+	$start -> . T $end	(Rule 0)
+
+	$default	reduce using rule 2 (preproc)
+
+	T	go to state 1
+	preproc	go to state 2
+
+State 1:
+
+	$start -> T . $end	(Rule 0)
+
+	$end	shift, and go to state 3
+
+State 2:
+
+	T -> preproc . S 'other'	(Rule 1)
+
+	NUM	shift, and go to state 4
+
+	S	go to state 5
+	x	go to state 6
+
+State 3:
+
+	$start -> T $end .	(Rule 0)
+
+	$default	accept
+
+State 4:
+
+	x -> NUM .	(Rule 5)
+
+	$default	reduce using rule 5 (x)
+
+State 5:
+
+	T -> preproc S . 'other'	(Rule 1)
+
+	'other'	shift, and go to state 7
+
+State 6:
+
+	S -> x . isInTheMiddle S x	(Rule 3)
+	S -> x . isInTheMiddle	(Rule 4)
+	x -> x . OP NUM	(Rule 6)
+
+	OP	shift, and go to state 8
+
+	'other'	reduce using rule 7 (isInTheMiddle)
+	NUM	reduce using rule 7 (isInTheMiddle)
+
+	isInTheMiddle	go to state 9
+
+State 7:
+
+	T -> preproc S 'other' .	(Rule 1)
+
+	$default	reduce using rule 1 (T)
+
+State 8:
+
+	x -> x OP . NUM	(Rule 6)
+
+	NUM	shift, and go to state 10
+
+State 9:
+
+	S -> x isInTheMiddle . S x	(Rule 3)
+	S -> x isInTheMiddle .	(Rule 4)
+
+	NUM	shift, and go to state 4
+
+	'other'	reduce using rule 4 (S)
+	NUM	[reduce using rule 4 (S)]
+
+	S	go to state 11
+	x	go to state 6
+
+State 10:
+
+	x -> x OP NUM .	(Rule 6)
+
+	$default	reduce using rule 6 (x)
+
+State 11:
+
+	S -> x isInTheMiddle S . x	(Rule 3)
+
+	NUM	shift, and go to state 4
+
+	x	go to state 12
+
+State 12:
+
+	S -> x isInTheMiddle S x .	(Rule 3)
+	x -> x . OP NUM	(Rule 6)
+
+	OP	shift, and go to state 8
+
+	'other'	reduce using rule 3 (S)
+	NUM	reduce using rule 3 (S)
+
+
+Summary:
+--------
+Number of rules         : 8
+Number of terminals     : 4
+Number of non-terminals : 6
+Number of states        : 13

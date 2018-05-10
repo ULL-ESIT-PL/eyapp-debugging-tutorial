@@ -1,0 +1,83 @@
+Rules:
+------
+0:	$start -> prg $end
+1:	STAR-1 -> STAR-1 stmt
+2:	STAR-1 -> /* empty */
+3:	prg -> STAR-1
+4:	sos -> /* empty */
+5:	stmt -> '\n'
+6:	stmt -> sos 'nop' '\n'
+
+States:
+-------
+State 0:
+
+	$start -> . prg $end	(Rule 0)
+
+	$default	reduce using rule 2 (STAR-1)
+
+	prg	go to state 2
+	STAR-1	go to state 1
+
+State 1:
+
+	STAR-1 -> STAR-1 . stmt	(Rule 1)
+	prg -> STAR-1 .	(Rule 3)
+
+	'\n'	shift, and go to state 5
+
+	$end	reduce using rule 3 (prg)
+	'nop'	reduce using rule 4 (sos)
+
+	stmt	go to state 3
+	sos	go to state 4
+
+State 2:
+
+	$start -> prg . $end	(Rule 0)
+
+	$end	shift, and go to state 6
+
+State 3:
+
+	STAR-1 -> STAR-1 stmt .	(Rule 1)
+
+	$default	reduce using rule 1 (STAR-1)
+
+State 4:
+
+	stmt -> sos . 'nop' '\n'	(Rule 6)
+
+	'nop'	shift, and go to state 7
+
+State 5:
+
+	stmt -> '\n' .	(Rule 5)
+
+	$default	reduce using rule 5 (stmt)
+
+State 6:
+
+	$start -> prg $end .	(Rule 0)
+
+	$default	accept
+
+State 7:
+
+	stmt -> sos 'nop' . '\n'	(Rule 6)
+
+	'\n'	shift, and go to state 8
+
+State 8:
+
+	stmt -> sos 'nop' '\n' .	(Rule 6)
+
+	$default	reduce using rule 6 (stmt)
+
+
+Summary:
+--------
+Number of rules         : 7
+Number of terminals     : 3
+Number of non-terminals : 5
+Number of states        : 9

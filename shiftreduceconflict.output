@@ -1,0 +1,108 @@
+Warnings:
+---------
+1 shift/reduce conflict 
+Conflicts:
+----------
+State 8 contains 1 shift/reduce conflict
+
+Rules:
+------
+0:	$start -> stmt $end
+1:	stmt -> IF expr THEN stmt
+2:	stmt -> IF expr THEN stmt ELSE stmt
+3:	stmt -> OTHERSTMT
+4:	expr -> EXPR
+
+States:
+-------
+State 0:
+
+	$start -> . stmt $end	(Rule 0)
+
+	IF	shift, and go to state 2
+	OTHERSTMT	shift, and go to state 3
+
+	stmt	go to state 1
+
+State 1:
+
+	$start -> stmt . $end	(Rule 0)
+
+	$end	shift, and go to state 4
+
+State 2:
+
+	stmt -> IF . expr THEN stmt	(Rule 1)
+	stmt -> IF . expr THEN stmt ELSE stmt	(Rule 2)
+
+	EXPR	shift, and go to state 6
+
+	expr	go to state 5
+
+State 3:
+
+	stmt -> OTHERSTMT .	(Rule 3)
+
+	$default	reduce using rule 3 (stmt)
+
+State 4:
+
+	$start -> stmt $end .	(Rule 0)
+
+	$default	accept
+
+State 5:
+
+	stmt -> IF expr . THEN stmt	(Rule 1)
+	stmt -> IF expr . THEN stmt ELSE stmt	(Rule 2)
+
+	THEN	shift, and go to state 7
+
+State 6:
+
+	expr -> EXPR .	(Rule 4)
+
+	$default	reduce using rule 4 (expr)
+
+State 7:
+
+	stmt -> IF expr THEN . stmt	(Rule 1)
+	stmt -> IF expr THEN . stmt ELSE stmt	(Rule 2)
+
+	IF	shift, and go to state 2
+	OTHERSTMT	shift, and go to state 3
+
+	stmt	go to state 8
+
+State 8:
+
+	stmt -> IF expr THEN stmt .	(Rule 1)
+	stmt -> IF expr THEN stmt . ELSE stmt	(Rule 2)
+
+	ELSE	shift, and go to state 9
+
+	$end	reduce using rule 1 (stmt)
+	ELSE	[reduce using rule 1 (stmt)]
+
+State 9:
+
+	stmt -> IF expr THEN stmt ELSE . stmt	(Rule 2)
+
+	IF	shift, and go to state 2
+	OTHERSTMT	shift, and go to state 3
+
+	stmt	go to state 10
+
+State 10:
+
+	stmt -> IF expr THEN stmt ELSE stmt .	(Rule 2)
+
+	$default	reduce using rule 2 (stmt)
+
+
+Summary:
+--------
+Number of rules         : 5
+Number of terminals     : 6
+Number of non-terminals : 3
+Number of states        : 11

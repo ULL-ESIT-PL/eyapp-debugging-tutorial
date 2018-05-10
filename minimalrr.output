@@ -1,0 +1,58 @@
+Warnings:
+---------
+1 reduce/reduce conflict
+Conflicts:
+----------
+State 2 contains 1 reduce/reduce conflict
+
+Rules:
+------
+0:	$start -> s $end
+1:	s -> 'a'
+2:	s -> A
+3:	A -> 'a'
+
+States:
+-------
+State 0:
+
+	$start -> . s $end	(Rule 0)
+
+	'a'	shift, and go to state 2
+
+	A	go to state 1
+	s	go to state 3
+
+State 1:
+
+	s -> A .	(Rule 2)
+
+	$default	reduce using rule 2 (s)
+
+State 2:
+
+	s -> 'a' .	(Rule 1)
+	A -> 'a' .	(Rule 3)
+
+	$end	[reduce using rule 3 (A)]
+	$end	reduce using rule 1 (s)
+
+State 3:
+
+	$start -> s . $end	(Rule 0)
+
+	$end	shift, and go to state 4
+
+State 4:
+
+	$start -> s $end .	(Rule 0)
+
+	$default	accept
+
+
+Summary:
+--------
+Number of rules         : 4
+Number of terminals     : 2
+Number of non-terminals : 3
+Number of states        : 5

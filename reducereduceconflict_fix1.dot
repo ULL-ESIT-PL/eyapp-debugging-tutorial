@@ -1,0 +1,66 @@
+digraph G {
+#concentrate = true
+
+  "g0" [label="0: $start -> def $end", shape = doubleoctagon, fontcolor=blue, color=blue ]
+  "g1" [label="1: def -> param_spec return_spec ','", shape = box, fontcolor=blue, color=blue ]
+  "g2" [label="2: param_spec -> type", shape = box, fontcolor=blue, color=blue ]
+  "g3" [label="3: param_spec -> name_list ':' type", shape = box, fontcolor=blue, color=blue ]
+  "g4" [label="4: return_spec -> type", shape = box, fontcolor=blue, color=blue ]
+  "g5" [label="5: return_spec -> name ':' type", shape = box, fontcolor=blue, color=blue ]
+  "g6" [label="6: return_spec -> ID BOGUS", shape = box, fontcolor=blue, color=blue ]
+  "g7" [label="7: type -> ID", shape = box, fontcolor=blue, color=blue ]
+  "g8" [label="8: name -> ID", shape = box, fontcolor=blue, color=blue ]
+  "g9" [label="9: name_list -> name", shape = box, fontcolor=blue, color=blue ]
+  "g10" [label="10: name_list -> name ',' name_list", shape = box, fontcolor=blue, color=blue ]
+  g0 ->g1 [style=dotted];
+  g1 ->g2 [style=dotted];
+  g2 ->g3 [style=dotted];
+  g3 ->g4 [style=dotted];
+  g4 ->g5 [style=dotted];
+  g5 ->g6 [style=dotted];
+  g6 ->g7 [style=dotted];
+  g7 ->g8 [style=dotted];
+  g8 ->g9 [style=dotted];
+  g9 ->g10 [style=dotted];
+0 -> 1 [label = "ID"]
+0 -> 2 [label = "param_spec", arrowhead = odot, color = "red", fontcolor = "red"]
+0 -> 3 [label = "def", arrowhead = odot, color = "red", fontcolor = "red"]
+0 -> 5 [label = "name_list", arrowhead = odot, color = "red", fontcolor = "red"]
+0 -> 4 [label = "name", arrowhead = odot, color = "red", fontcolor = "red"]
+0 -> 6 [label = "type", arrowhead = odot, color = "red", fontcolor = "red"]
+1 -> "g8" [label = "','", arrowhead=dot, color = "blue", fontcolor = "blue"]
+1 -> "g8" [label = "':'", arrowhead=dot, color = "blue", fontcolor = "blue"]
+1 -> "g7" [label = "ID", arrowhead=dot, color = "blue", fontcolor = "blue"]
+2 -> 7 [label = "ID"]
+2 -> 8 [label = "name", arrowhead = odot, color = "red", fontcolor = "red"]
+2 -> 10 [label = "return_spec", arrowhead = odot, color = "red", fontcolor = "red"]
+2 -> 9 [label = "type", arrowhead = odot, color = "red", fontcolor = "red"]
+3 -> 11 [label = "$end"]
+4 -> 12 [label = "','"]
+4 -> "g9" [label = "':'", arrowhead=dot, color = "blue", fontcolor = "blue"]
+5 -> 13 [label = "':'"]
+6 -> "g2" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+7 -> 14 [label = "BOGUS"]
+7 -> "g7" [label = "','", arrowhead=dot, color = "blue", fontcolor = "blue"]
+7 -> "g8" [label = "':'", arrowhead=dot, color = "blue", fontcolor = "blue"]
+8 -> 15 [label = "':'"]
+9 -> "g4" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+10 -> 16 [label = "','"]
+11 [shape = doublecircle]
+11 -> "g0" [arrowhead = dot, color = blue]
+12 -> 17 [label = "ID"]
+12 -> 18 [label = "name_list", arrowhead = odot, color = "red", fontcolor = "red"]
+12 -> 4 [label = "name", arrowhead = odot, color = "red", fontcolor = "red"]
+13 -> 19 [label = "ID"]
+13 -> 20 [label = "type", arrowhead = odot, color = "red", fontcolor = "red"]
+14 -> "g6" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+15 -> 19 [label = "ID"]
+15 -> 21 [label = "type", arrowhead = odot, color = "red", fontcolor = "red"]
+16 -> "g1" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+17 -> "g8" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+18 -> "g10" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+19 -> "g7" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+20 -> "g3" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+21 -> "g5" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+
+}

@@ -1,0 +1,165 @@
+Warnings:
+---------
+1 shift/reduce conflict and 1 reduce/reduce conflict
+Conflicts:
+----------
+State 0 contains 1 shift/reduce conflict and 1 reduce/reduce conflict
+
+Rules:
+------
+0:	$start -> s $end
+1:	s -> aeqb
+2:	s -> beqc
+3:	aeqb -> ab cs
+4:	ab -> /* empty */
+5:	ab -> 'a' ab 'b'
+6:	cs -> /* empty */
+7:	cs -> cs 'c'
+8:	beqc -> as bc
+9:	bc -> /* empty */
+10:	bc -> 'b' bc 'c'
+11:	as -> /* empty */
+12:	as -> as 'a'
+
+States:
+-------
+State 0:
+
+	$start -> . s $end	(Rule 0)
+
+	'a'	shift, and go to state 4
+
+	$end	[reduce using rule 11 (as)]
+	$end	reduce using rule 4 (ab)
+	'a'	[reduce using rule 11 (as)]
+	'b'	reduce using rule 11 (as)
+	'c'	reduce using rule 4 (ab)
+
+	aeqb	go to state 2
+	ab	go to state 1
+	as	go to state 3
+	beqc	go to state 5
+	s	go to state 6
+
+State 1:
+
+	aeqb -> ab . cs	(Rule 3)
+
+	$default	reduce using rule 6 (cs)
+
+	cs	go to state 7
+
+State 2:
+
+	s -> aeqb .	(Rule 1)
+
+	$default	reduce using rule 1 (s)
+
+State 3:
+
+	beqc -> as . bc	(Rule 8)
+	as -> as . 'a'	(Rule 12)
+
+	'a'	shift, and go to state 9
+	'b'	shift, and go to state 8
+
+	$end	reduce using rule 9 (bc)
+
+	bc	go to state 10
+
+State 4:
+
+	ab -> 'a' . ab 'b'	(Rule 5)
+
+	'a'	shift, and go to state 4
+
+	'b'	reduce using rule 4 (ab)
+
+	ab	go to state 11
+
+State 5:
+
+	s -> beqc .	(Rule 2)
+
+	$default	reduce using rule 2 (s)
+
+State 6:
+
+	$start -> s . $end	(Rule 0)
+
+	$end	shift, and go to state 12
+
+State 7:
+
+	aeqb -> ab cs .	(Rule 3)
+	cs -> cs . 'c'	(Rule 7)
+
+	'c'	shift, and go to state 13
+
+	$end	reduce using rule 3 (aeqb)
+
+State 8:
+
+	bc -> 'b' . bc 'c'	(Rule 10)
+
+	'b'	shift, and go to state 8
+
+	'c'	reduce using rule 9 (bc)
+
+	bc	go to state 14
+
+State 9:
+
+	as -> as 'a' .	(Rule 12)
+
+	$default	reduce using rule 12 (as)
+
+State 10:
+
+	beqc -> as bc .	(Rule 8)
+
+	$default	reduce using rule 8 (beqc)
+
+State 11:
+
+	ab -> 'a' ab . 'b'	(Rule 5)
+
+	'b'	shift, and go to state 15
+
+State 12:
+
+	$start -> s $end .	(Rule 0)
+
+	$default	accept
+
+State 13:
+
+	cs -> cs 'c' .	(Rule 7)
+
+	$default	reduce using rule 7 (cs)
+
+State 14:
+
+	bc -> 'b' bc . 'c'	(Rule 10)
+
+	'c'	shift, and go to state 16
+
+State 15:
+
+	ab -> 'a' ab 'b' .	(Rule 5)
+
+	$default	reduce using rule 5 (ab)
+
+State 16:
+
+	bc -> 'b' bc 'c' .	(Rule 10)
+
+	$default	reduce using rule 10 (bc)
+
+
+Summary:
+--------
+Number of rules         : 13
+Number of terminals     : 4
+Number of non-terminals : 8
+Number of states        : 17

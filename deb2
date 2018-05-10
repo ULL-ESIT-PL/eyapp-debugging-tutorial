@@ -1,0 +1,63 @@
+#source deb
+use utf8
+n
+n
+s
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+n
+x $parser->input
+s
+n
+n
+n
+n
+n
+s
+n
+n
+x @params
+x @_
+x ·self
+#save deb
+x $self
+.
+.
+s
+n
+n
+n
+n
+x ($prm,$value)
+n
+x $$checklist{$prm}
+n
+n
+n
+x $prm
+n
+n
+ $_
+x $_
+x $$outhash{$_}
+x $outhash
+x exists($$outhash{$_})
+n
+#save deb2

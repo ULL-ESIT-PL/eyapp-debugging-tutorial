@@ -1,0 +1,26 @@
+digraph G {
+concentrate = true
+
+"$start -> A $end" [shape = doubleoctagon, fontcolor=blue, color=blue ]
+"A -> B 'c' 'd'" [shape = box, fontcolor=blue, color=blue ]
+"A -> E 'c' 'f'" [shape = box, fontcolor=blue, color=blue ]
+"B -> 'x' 'y'" [shape = box, fontcolor=blue, color=blue ]
+"E -> 'x' 'y'" [shape = box, fontcolor=blue, color=blue ]
+0 -> 1 [label = "'x'"]
+0 -> 2 [label = "A", arrowhead = odot, color = "red", fontcolor = "red"]
+0 -> 4 [label = "B", arrowhead = odot, color = "red", fontcolor = "red"]
+0 -> 3 [label = "E", arrowhead = odot, color = "red", fontcolor = "red"]
+1 -> 5 [label = "'y'"]
+2 -> 6 [label = "$end"]
+3 -> 7 [label = "'c'"]
+4 -> 8 [label = "'c'"]
+5 -> "B -> 'x' 'y'" [label = "'c'", arrowhead=dot, color = "blue", fontcolor = "blue"]
+5 -> "E -> 'x' 'y'" [label = "'c'", arrowhead=dot, color = "orange", fontcolor = "orange"]
+6 [shape = doublecircle]
+6 -> "$start -> A $end" [arrowhead = dot, color = blue]
+7 -> 9 [label = "'f'"]
+8 -> 10 [label = "'d'"]
+9 -> "A -> E 'c' 'f'" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+10 -> "A -> B 'c' 'd'" [label = "$default", arrowhead=dot, color = "blue", fontcolor = "blue"]
+
+}

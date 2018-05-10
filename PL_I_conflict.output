@@ -1,0 +1,140 @@
+Rules:
+------
+0:	$start -> stmt $end
+1:	stmt -> ifstmt
+2:	stmt -> assignstmt
+3:	ifstmt -> 'if' expr 'then' stmt
+4:	assignstmt -> id '=' expr
+5:	expr -> id '=' id
+6:	expr -> id
+7:	id -> ID
+
+States:
+-------
+State 0:
+
+	$start -> . stmt $end	(Rule 0)
+
+	'if'	shift, and go to state 2
+	ID	shift, and go to state 1
+
+	stmt	go to state 3
+	assignstmt	go to state 4
+	ifstmt	go to state 5
+	id	go to state 6
+
+State 1:
+
+	id -> ID .	(Rule 7)
+
+	$default	reduce using rule 7 (id)
+
+State 2:
+
+	ifstmt -> 'if' . expr 'then' stmt	(Rule 3)
+
+	ID	shift, and go to state 1
+
+	expr	go to state 7
+	id	go to state 8
+
+State 3:
+
+	$start -> stmt . $end	(Rule 0)
+
+	$end	shift, and go to state 9
+
+State 4:
+
+	stmt -> assignstmt .	(Rule 2)
+
+	$default	reduce using rule 2 (stmt)
+
+State 5:
+
+	stmt -> ifstmt .	(Rule 1)
+
+	$default	reduce using rule 1 (stmt)
+
+State 6:
+
+	assignstmt -> id . '=' expr	(Rule 4)
+
+	'='	shift, and go to state 10
+
+State 7:
+
+	ifstmt -> 'if' expr . 'then' stmt	(Rule 3)
+
+	'then'	shift, and go to state 11
+
+State 8:
+
+	expr -> id . '=' id	(Rule 5)
+	expr -> id .	(Rule 6)
+
+	'='	shift, and go to state 12
+
+	$end	reduce using rule 6 (expr)
+	'then'	reduce using rule 6 (expr)
+
+State 9:
+
+	$start -> stmt $end .	(Rule 0)
+
+	$default	accept
+
+State 10:
+
+	assignstmt -> id '=' . expr	(Rule 4)
+
+	ID	shift, and go to state 1
+
+	expr	go to state 13
+	id	go to state 8
+
+State 11:
+
+	ifstmt -> 'if' expr 'then' . stmt	(Rule 3)
+
+	'if'	shift, and go to state 2
+	ID	shift, and go to state 1
+
+	stmt	go to state 14
+	assignstmt	go to state 4
+	ifstmt	go to state 5
+	id	go to state 6
+
+State 12:
+
+	expr -> id '=' . id	(Rule 5)
+
+	ID	shift, and go to state 1
+
+	id	go to state 15
+
+State 13:
+
+	assignstmt -> id '=' expr .	(Rule 4)
+
+	$default	reduce using rule 4 (assignstmt)
+
+State 14:
+
+	ifstmt -> 'if' expr 'then' stmt .	(Rule 3)
+
+	$default	reduce using rule 3 (ifstmt)
+
+State 15:
+
+	expr -> id '=' id .	(Rule 5)
+
+	$default	reduce using rule 5 (expr)
+
+
+Summary:
+--------
+Number of rules         : 8
+Number of terminals     : 5
+Number of non-terminals : 6
+Number of states        : 16

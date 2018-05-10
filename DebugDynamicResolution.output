@@ -1,0 +1,131 @@
+Warnings:
+---------
+1 shift/reduce conflict 
+Conflicts:
+----------
+State 8 contains 1 shift/reduce conflict
+
+Rules:
+------
+0:	$start -> p $end
+1:	p -> ds ';' ss
+2:	p -> ss
+3:	ds -> D LAST_OR_MORE ';' ds
+4:	ds -> D LAST_OR_MORE
+5:	ss -> S ';' ss
+6:	ss -> S
+7:	LAST_OR_MORE -> /* empty */
+
+States:
+-------
+State 0:
+
+	$start -> . p $end	(Rule 0)
+
+	D	shift, and go to state 4
+	S	shift, and go to state 1
+
+	p	go to state 2
+	ss	go to state 3
+	ds	go to state 5
+
+State 1:
+
+	ss -> S . ';' ss	(Rule 5)
+	ss -> S .	(Rule 6)
+
+	';'	shift, and go to state 6
+
+	$end	reduce using rule 6 (ss)
+
+State 2:
+
+	$start -> p . $end	(Rule 0)
+
+	$end	shift, and go to state 7
+
+State 3:
+
+	p -> ss .	(Rule 2)
+
+	$default	reduce using rule 2 (p)
+
+State 4:
+
+	ds -> D . LAST_OR_MORE ';' ds	(Rule 3)
+	ds -> D . LAST_OR_MORE	(Rule 4)
+
+	$default	reduce using rule 7 (LAST_OR_MORE)
+
+	LAST_OR_MORE	go to state 8
+
+State 5:
+
+	p -> ds . ';' ss	(Rule 1)
+
+	';'	shift, and go to state 9
+
+State 6:
+
+	ss -> S ';' . ss	(Rule 5)
+
+	S	shift, and go to state 1
+
+	ss	go to state 10
+
+State 7:
+
+	$start -> p $end .	(Rule 0)
+
+	$default	accept
+
+State 8:
+
+	ds -> D LAST_OR_MORE . ';' ds	(Rule 3)
+	ds -> D LAST_OR_MORE .	(Rule 4)
+
+	';'	shift, and go to state 11
+
+	';'	[reduce using rule 4 (ds)]
+
+State 9:
+
+	p -> ds ';' . ss	(Rule 1)
+
+	S	shift, and go to state 1
+
+	ss	go to state 12
+
+State 10:
+
+	ss -> S ';' ss .	(Rule 5)
+
+	$default	reduce using rule 5 (ss)
+
+State 11:
+
+	ds -> D LAST_OR_MORE ';' . ds	(Rule 3)
+
+	D	shift, and go to state 4
+
+	ds	go to state 13
+
+State 12:
+
+	p -> ds ';' ss .	(Rule 1)
+
+	$default	reduce using rule 1 (p)
+
+State 13:
+
+	ds -> D LAST_OR_MORE ';' ds .	(Rule 3)
+
+	$default	reduce using rule 3 (ds)
+
+
+Summary:
+--------
+Number of rules         : 8
+Number of terminals     : 4
+Number of non-terminals : 5
+Number of states        : 14

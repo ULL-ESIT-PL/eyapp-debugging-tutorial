@@ -1,0 +1,154 @@
+Warnings:
+---------
+1 shift/reduce conflict 
+Conflicts:
+----------
+State 9 contains 1 shift/reduce conflict
+
+Rules:
+------
+0:	$start -> T $end
+1:	T -> isInTheMiddle_explorer S ';' isInTheMiddle_explorer S ';'
+2:	S -> x isInTheMiddle S x
+3:	S -> x isInTheMiddle
+4:	x -> NUM
+5:	x -> x OP NUM
+6:	isInTheMiddle -> /* empty */
+7:	isInTheMiddle_explorer -> /* empty */
+
+States:
+-------
+State 0:
+
+	$start -> . T $end	(Rule 0)
+
+	$default	reduce using rule 7 (isInTheMiddle_explorer)
+
+	T	go to state 1
+	isInTheMiddle_explorer	go to state 2
+
+State 1:
+
+	$start -> T . $end	(Rule 0)
+
+	$end	shift, and go to state 3
+
+State 2:
+
+	T -> isInTheMiddle_explorer . S ';' isInTheMiddle_explorer S ';'	(Rule 1)
+
+	NUM	shift, and go to state 4
+
+	S	go to state 5
+	x	go to state 6
+
+State 3:
+
+	$start -> T $end .	(Rule 0)
+
+	$default	accept
+
+State 4:
+
+	x -> NUM .	(Rule 4)
+
+	$default	reduce using rule 4 (x)
+
+State 5:
+
+	T -> isInTheMiddle_explorer S . ';' isInTheMiddle_explorer S ';'	(Rule 1)
+
+	';'	shift, and go to state 7
+
+State 6:
+
+	S -> x . isInTheMiddle S x	(Rule 2)
+	S -> x . isInTheMiddle	(Rule 3)
+	x -> x . OP NUM	(Rule 5)
+
+	OP	shift, and go to state 8
+
+	';'	reduce using rule 6 (isInTheMiddle)
+	NUM	reduce using rule 6 (isInTheMiddle)
+
+	isInTheMiddle	go to state 9
+
+State 7:
+
+	T -> isInTheMiddle_explorer S ';' . isInTheMiddle_explorer S ';'	(Rule 1)
+
+	$default	reduce using rule 7 (isInTheMiddle_explorer)
+
+	isInTheMiddle_explorer	go to state 10
+
+State 8:
+
+	x -> x OP . NUM	(Rule 5)
+
+	NUM	shift, and go to state 11
+
+State 9:
+
+	S -> x isInTheMiddle . S x	(Rule 2)
+	S -> x isInTheMiddle .	(Rule 3)
+
+	NUM	shift, and go to state 4
+
+	';'	reduce using rule 3 (S)
+	NUM	[reduce using rule 3 (S)]
+
+	S	go to state 12
+	x	go to state 6
+
+State 10:
+
+	T -> isInTheMiddle_explorer S ';' isInTheMiddle_explorer . S ';'	(Rule 1)
+
+	NUM	shift, and go to state 4
+
+	S	go to state 13
+	x	go to state 6
+
+State 11:
+
+	x -> x OP NUM .	(Rule 5)
+
+	$default	reduce using rule 5 (x)
+
+State 12:
+
+	S -> x isInTheMiddle S . x	(Rule 2)
+
+	NUM	shift, and go to state 4
+
+	x	go to state 14
+
+State 13:
+
+	T -> isInTheMiddle_explorer S ';' isInTheMiddle_explorer S . ';'	(Rule 1)
+
+	';'	shift, and go to state 15
+
+State 14:
+
+	S -> x isInTheMiddle S x .	(Rule 2)
+	x -> x . OP NUM	(Rule 5)
+
+	OP	shift, and go to state 8
+
+	';'	reduce using rule 2 (S)
+	NUM	reduce using rule 2 (S)
+
+State 15:
+
+	T -> isInTheMiddle_explorer S ';' isInTheMiddle_explorer S ';' .	(Rule 1)
+
+	$default	reduce using rule 1 (T)
+
+
+Summary:
+--------
+Number of rules         : 8
+Number of terminals     : 4
+Number of non-terminals : 6
+Number of states        : 16

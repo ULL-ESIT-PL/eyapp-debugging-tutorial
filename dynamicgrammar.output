@@ -1,0 +1,166 @@
+Conflicts:
+----------
+State 15 contains 1 shift/reduce conflict
+
+Rules:
+------
+0:	$start -> p $end
+1:	STAR-1 -> STAR-1 c
+2:	STAR-1 -> /* empty */
+3:	p -> STAR-1
+4:	c -> expr
+5:	c -> RIGHT
+6:	c -> LEFT
+7:	expr -> '(' expr ')'
+8:	expr -> expr leftORright '-' expr leftORright
+9:	expr -> NUM
+10:	leftORright -> /* empty */
+
+States:
+-------
+State 0:
+
+	$start -> . p $end	(Rule 0)
+
+	$default	reduce using rule 2 (STAR-1)
+
+	p	go to state 1
+	STAR-1	go to state 2
+
+State 1:
+
+	$start -> p . $end	(Rule 0)
+
+	$end	shift, and go to state 3
+
+State 2:
+
+	STAR-1 -> STAR-1 . c	(Rule 1)
+	p -> STAR-1 .	(Rule 3)
+
+	'('	shift, and go to state 5
+	LEFT	shift, and go to state 8
+	NUM	shift, and go to state 4
+	RIGHT	shift, and go to state 9
+
+	$end	reduce using rule 3 (p)
+
+	c	go to state 6
+	expr	go to state 7
+
+State 3:
+
+	$start -> p $end .	(Rule 0)
+
+	$default	accept
+
+State 4:
+
+	expr -> NUM .	(Rule 9)
+
+	$default	reduce using rule 9 (expr)
+
+State 5:
+
+	expr -> '(' . expr ')'	(Rule 7)
+
+	'('	shift, and go to state 5
+	NUM	shift, and go to state 4
+
+	expr	go to state 10
+
+State 6:
+
+	STAR-1 -> STAR-1 c .	(Rule 1)
+
+	$default	reduce using rule 1 (STAR-1)
+
+State 7:
+
+	c -> expr .	(Rule 4)
+	expr -> expr . leftORright '-' expr leftORright	(Rule 8)
+
+	$end	reduce using rule 4 (c)
+	'('	reduce using rule 4 (c)
+	'-'	reduce using rule 10 (leftORright)
+	LEFT	reduce using rule 4 (c)
+	NUM	reduce using rule 4 (c)
+	RIGHT	reduce using rule 4 (c)
+
+	leftORright	go to state 11
+
+State 8:
+
+	c -> LEFT .	(Rule 6)
+
+	$default	reduce using rule 6 (c)
+
+State 9:
+
+	c -> RIGHT .	(Rule 5)
+
+	$default	reduce using rule 5 (c)
+
+State 10:
+
+	expr -> '(' expr . ')'	(Rule 7)
+	expr -> expr . leftORright '-' expr leftORright	(Rule 8)
+
+	')'	shift, and go to state 12
+
+	'-'	reduce using rule 10 (leftORright)
+
+	leftORright	go to state 11
+
+State 11:
+
+	expr -> expr leftORright . '-' expr leftORright	(Rule 8)
+
+	'-'	shift, and go to state 13
+
+State 12:
+
+	expr -> '(' expr ')' .	(Rule 7)
+
+	$default	reduce using rule 7 (expr)
+
+State 13:
+
+	expr -> expr leftORright '-' . expr leftORright	(Rule 8)
+
+	'('	shift, and go to state 5
+	NUM	shift, and go to state 4
+
+	expr	go to state 14
+
+State 14:
+
+	expr -> expr . leftORright '-' expr leftORright	(Rule 8)
+	expr -> expr leftORright '-' expr . leftORright	(Rule 8)
+
+	$default	reduce using rule 10 (leftORright)
+
+	leftORright	go to state 15
+
+State 15:
+
+	expr -> expr leftORright . '-' expr leftORright	(Rule 8)
+	expr -> expr leftORright '-' expr leftORright .	(Rule 8)
+
+	'-'	shift, and go to state 13
+
+	$end	reduce using rule 8 (expr)
+	'('	reduce using rule 8 (expr)
+	')'	reduce using rule 8 (expr)
+	'-'	[reduce using rule 8 (expr)]
+	LEFT	reduce using rule 8 (expr)
+	NUM	reduce using rule 8 (expr)
+	RIGHT	reduce using rule 8 (expr)
+
+
+Summary:
+--------
+Number of rules         : 11
+Number of terminals     : 7
+Number of non-terminals : 6
+Number of states        : 16

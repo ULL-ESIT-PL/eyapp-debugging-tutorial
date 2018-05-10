@@ -1,0 +1,29 @@
+#source deb
+f lib/Parse/Eyapp/Parse.yp 
+c 590
+x $_[1]
+n
+x ($r, $ln)
+b 590
+n
+x ($r, $ln)
+p $r
+#save deb
+L
+b Parse::Eyapp::Output::makeLexer 
+c
+n
+n
+l
+l
+l
+l
+l
+c 98
+n
+n
+n
+n
+n
+n
+#save deb

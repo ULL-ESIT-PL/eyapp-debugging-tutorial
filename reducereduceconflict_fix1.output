@@ -1,0 +1,183 @@
+Rules:
+------
+0:	$start -> def $end
+1:	def -> param_spec return_spec ','
+2:	param_spec -> type
+3:	param_spec -> name_list ':' type
+4:	return_spec -> type
+5:	return_spec -> name ':' type
+6:	return_spec -> ID BOGUS
+7:	type -> ID
+8:	name -> ID
+9:	name_list -> name
+10:	name_list -> name ',' name_list
+
+States:
+-------
+State 0:
+
+	$start -> . def $end	(Rule 0)
+
+	ID	shift, and go to state 1
+
+	param_spec	go to state 2
+	def	go to state 3
+	name_list	go to state 5
+	name	go to state 4
+	type	go to state 6
+
+State 1:
+
+	type -> ID .	(Rule 7)
+	name -> ID .	(Rule 8)
+
+	','	reduce using rule 8 (name)
+	':'	reduce using rule 8 (name)
+	ID	reduce using rule 7 (type)
+
+State 2:
+
+	def -> param_spec . return_spec ','	(Rule 1)
+
+	ID	shift, and go to state 7
+
+	name	go to state 8
+	return_spec	go to state 10
+	type	go to state 9
+
+State 3:
+
+	$start -> def . $end	(Rule 0)
+
+	$end	shift, and go to state 11
+
+State 4:
+
+	name_list -> name .	(Rule 9)
+	name_list -> name . ',' name_list	(Rule 10)
+
+	','	shift, and go to state 12
+
+	':'	reduce using rule 9 (name_list)
+
+State 5:
+
+	param_spec -> name_list . ':' type	(Rule 3)
+
+	':'	shift, and go to state 13
+
+State 6:
+
+	param_spec -> type .	(Rule 2)
+
+	$default	reduce using rule 2 (param_spec)
+
+State 7:
+
+	return_spec -> ID . BOGUS	(Rule 6)
+	type -> ID .	(Rule 7)
+	name -> ID .	(Rule 8)
+
+	BOGUS	shift, and go to state 14
+
+	','	reduce using rule 7 (type)
+	':'	reduce using rule 8 (name)
+
+State 8:
+
+	return_spec -> name . ':' type	(Rule 5)
+
+	':'	shift, and go to state 15
+
+State 9:
+
+	return_spec -> type .	(Rule 4)
+
+	$default	reduce using rule 4 (return_spec)
+
+State 10:
+
+	def -> param_spec return_spec . ','	(Rule 1)
+
+	','	shift, and go to state 16
+
+State 11:
+
+	$start -> def $end .	(Rule 0)
+
+	$default	accept
+
+State 12:
+
+	name_list -> name ',' . name_list	(Rule 10)
+
+	ID	shift, and go to state 17
+
+	name_list	go to state 18
+	name	go to state 4
+
+State 13:
+
+	param_spec -> name_list ':' . type	(Rule 3)
+
+	ID	shift, and go to state 19
+
+	type	go to state 20
+
+State 14:
+
+	return_spec -> ID BOGUS .	(Rule 6)
+
+	$default	reduce using rule 6 (return_spec)
+
+State 15:
+
+	return_spec -> name ':' . type	(Rule 5)
+
+	ID	shift, and go to state 19
+
+	type	go to state 21
+
+State 16:
+
+	def -> param_spec return_spec ',' .	(Rule 1)
+
+	$default	reduce using rule 1 (def)
+
+State 17:
+
+	name -> ID .	(Rule 8)
+
+	$default	reduce using rule 8 (name)
+
+State 18:
+
+	name_list -> name ',' name_list .	(Rule 10)
+
+	$default	reduce using rule 10 (name_list)
+
+State 19:
+
+	type -> ID .	(Rule 7)
+
+	$default	reduce using rule 7 (type)
+
+State 20:
+
+	param_spec -> name_list ':' type .	(Rule 3)
+
+	$default	reduce using rule 3 (param_spec)
+
+State 21:
+
+	return_spec -> name ':' type .	(Rule 5)
+
+	$default	reduce using rule 5 (return_spec)
+
+
+Summary:
+--------
+Number of rules         : 11
+Number of terminals     : 5
+Number of non-terminals : 7
+Number of states        : 22

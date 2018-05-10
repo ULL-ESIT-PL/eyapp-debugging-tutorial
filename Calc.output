@@ -1,0 +1,426 @@
+Warnings:
+---------
+35 shift/reduce conflicts 
+Conflicts:
+----------
+State 13 contains 5 shift/reduce conflicts
+State 23 contains 5 shift/reduce conflicts
+State 24 contains 5 shift/reduce conflicts
+State 25 contains 5 shift/reduce conflicts
+State 26 contains 5 shift/reduce conflicts
+State 27 contains 5 shift/reduce conflicts
+State 29 contains 5 shift/reduce conflicts
+
+Rules:
+------
+0:	$start -> start $end
+1:	start -> input
+2:	STAR-1 -> STAR-1 line
+3:	STAR-1 -> /* empty */
+4:	input -> STAR-1
+5:	line -> '\n'
+6:	line -> exp '\n'
+7:	line -> error '\n'
+8:	exp -> NUM
+9:	exp -> VAR
+10:	exp -> VAR '=' exp
+11:	exp -> exp '+' exp
+12:	exp -> exp '-' exp
+13:	exp -> exp '*' exp
+14:	exp -> exp '/' exp
+15:	exp -> '-' exp
+16:	exp -> exp '^' exp
+17:	exp -> '(' exp ')'
+
+States:
+-------
+State 0:
+
+	$start -> . start $end	(Rule 0)
+
+	$default	reduce using rule 3 (STAR-1)
+
+	input	go to state 2
+	STAR-1	go to state 1
+	start	go to state 3
+
+State 1:
+
+	STAR-1 -> STAR-1 . line	(Rule 2)
+	input -> STAR-1 .	(Rule 4)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	'\n'	shift, and go to state 9
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+	error	shift, and go to state 10
+
+	$end	reduce using rule 4 (input)
+
+	exp	go to state 6
+	line	go to state 11
+
+State 2:
+
+	start -> input .	(Rule 1)
+
+	$default	reduce using rule 1 (start)
+
+State 3:
+
+	$start -> start . $end	(Rule 0)
+
+	$end	shift, and go to state 12
+
+State 4:
+
+	exp -> '-' . exp	(Rule 15)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+
+	exp	go to state 13
+
+State 5:
+
+	exp -> NUM .	(Rule 8)
+
+	$default	reduce using rule 8 (exp)
+
+State 6:
+
+	line -> exp . '\n'	(Rule 6)
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> exp . '^' exp	(Rule 16)
+
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'\n'	shift, and go to state 18
+	'^'	shift, and go to state 15
+
+State 7:
+
+	exp -> '(' . exp ')'	(Rule 17)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+
+	exp	go to state 20
+
+State 8:
+
+	exp -> VAR .	(Rule 9)
+	exp -> VAR . '=' exp	(Rule 10)
+
+	'='	shift, and go to state 21
+
+	')'	reduce using rule 9 (exp)
+	'*'	reduce using rule 9 (exp)
+	'+'	reduce using rule 9 (exp)
+	'-'	reduce using rule 9 (exp)
+	'/'	reduce using rule 9 (exp)
+	'\n'	reduce using rule 9 (exp)
+	'^'	reduce using rule 9 (exp)
+
+State 9:
+
+	line -> '\n' .	(Rule 5)
+
+	$default	reduce using rule 5 (line)
+
+State 10:
+
+	line -> error . '\n'	(Rule 7)
+
+	'\n'	shift, and go to state 22
+
+State 11:
+
+	STAR-1 -> STAR-1 line .	(Rule 2)
+
+	$default	reduce using rule 2 (STAR-1)
+
+State 12:
+
+	$start -> start $end .	(Rule 0)
+
+	$default	accept
+
+State 13:
+
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> '-' exp .	(Rule 15)
+	exp -> exp . '^' exp	(Rule 16)
+
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'^'	shift, and go to state 15
+
+	')'	reduce using rule 15 (exp)
+	'*'	[reduce using rule 15 (exp)]
+	'+'	[reduce using rule 15 (exp)]
+	'-'	[reduce using rule 15 (exp)]
+	'/'	[reduce using rule 15 (exp)]
+	'\n'	reduce using rule 15 (exp)
+	'^'	[reduce using rule 15 (exp)]
+
+State 14:
+
+	exp -> exp '-' . exp	(Rule 12)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+
+	exp	go to state 23
+
+State 15:
+
+	exp -> exp '^' . exp	(Rule 16)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+
+	exp	go to state 24
+
+State 16:
+
+	exp -> exp '*' . exp	(Rule 13)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+
+	exp	go to state 25
+
+State 17:
+
+	exp -> exp '+' . exp	(Rule 11)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+
+	exp	go to state 26
+
+State 18:
+
+	line -> exp '\n' .	(Rule 6)
+
+	$default	reduce using rule 6 (line)
+
+State 19:
+
+	exp -> exp '/' . exp	(Rule 14)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+
+	exp	go to state 27
+
+State 20:
+
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> exp . '^' exp	(Rule 16)
+	exp -> '(' exp . ')'	(Rule 17)
+
+	')'	shift, and go to state 28
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'^'	shift, and go to state 15
+
+State 21:
+
+	exp -> VAR '=' . exp	(Rule 10)
+
+	'('	shift, and go to state 7
+	'-'	shift, and go to state 4
+	NUM	shift, and go to state 5
+	VAR	shift, and go to state 8
+
+	exp	go to state 29
+
+State 22:
+
+	line -> error '\n' .	(Rule 7)
+
+	$default	reduce using rule 7 (line)
+
+State 23:
+
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp '-' exp .	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> exp . '^' exp	(Rule 16)
+
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'^'	shift, and go to state 15
+
+	')'	reduce using rule 12 (exp)
+	'*'	[reduce using rule 12 (exp)]
+	'+'	[reduce using rule 12 (exp)]
+	'-'	[reduce using rule 12 (exp)]
+	'/'	[reduce using rule 12 (exp)]
+	'\n'	reduce using rule 12 (exp)
+	'^'	[reduce using rule 12 (exp)]
+
+State 24:
+
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> exp . '^' exp	(Rule 16)
+	exp -> exp '^' exp .	(Rule 16)
+
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'^'	shift, and go to state 15
+
+	')'	reduce using rule 16 (exp)
+	'*'	[reduce using rule 16 (exp)]
+	'+'	[reduce using rule 16 (exp)]
+	'-'	[reduce using rule 16 (exp)]
+	'/'	[reduce using rule 16 (exp)]
+	'\n'	reduce using rule 16 (exp)
+	'^'	[reduce using rule 16 (exp)]
+
+State 25:
+
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp '*' exp .	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> exp . '^' exp	(Rule 16)
+
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'^'	shift, and go to state 15
+
+	')'	reduce using rule 13 (exp)
+	'*'	[reduce using rule 13 (exp)]
+	'+'	[reduce using rule 13 (exp)]
+	'-'	[reduce using rule 13 (exp)]
+	'/'	[reduce using rule 13 (exp)]
+	'\n'	reduce using rule 13 (exp)
+	'^'	[reduce using rule 13 (exp)]
+
+State 26:
+
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp '+' exp .	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> exp . '^' exp	(Rule 16)
+
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'^'	shift, and go to state 15
+
+	')'	reduce using rule 11 (exp)
+	'*'	[reduce using rule 11 (exp)]
+	'+'	[reduce using rule 11 (exp)]
+	'-'	[reduce using rule 11 (exp)]
+	'/'	[reduce using rule 11 (exp)]
+	'\n'	reduce using rule 11 (exp)
+	'^'	[reduce using rule 11 (exp)]
+
+State 27:
+
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> exp '/' exp .	(Rule 14)
+	exp -> exp . '^' exp	(Rule 16)
+
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'^'	shift, and go to state 15
+
+	')'	reduce using rule 14 (exp)
+	'*'	[reduce using rule 14 (exp)]
+	'+'	[reduce using rule 14 (exp)]
+	'-'	[reduce using rule 14 (exp)]
+	'/'	[reduce using rule 14 (exp)]
+	'\n'	reduce using rule 14 (exp)
+	'^'	[reduce using rule 14 (exp)]
+
+State 28:
+
+	exp -> '(' exp ')' .	(Rule 17)
+
+	$default	reduce using rule 17 (exp)
+
+State 29:
+
+	exp -> VAR '=' exp .	(Rule 10)
+	exp -> exp . '+' exp	(Rule 11)
+	exp -> exp . '-' exp	(Rule 12)
+	exp -> exp . '*' exp	(Rule 13)
+	exp -> exp . '/' exp	(Rule 14)
+	exp -> exp . '^' exp	(Rule 16)
+
+	'*'	shift, and go to state 16
+	'+'	shift, and go to state 17
+	'-'	shift, and go to state 14
+	'/'	shift, and go to state 19
+	'^'	shift, and go to state 15
+
+	')'	reduce using rule 10 (exp)
+	'*'	[reduce using rule 10 (exp)]
+	'+'	[reduce using rule 10 (exp)]
+	'-'	[reduce using rule 10 (exp)]
+	'/'	[reduce using rule 10 (exp)]
+	'\n'	reduce using rule 10 (exp)
+	'^'	[reduce using rule 10 (exp)]
+
+
+Summary:
+--------
+Number of rules         : 18
+Number of terminals     : 13
+Number of non-terminals : 6
+Number of states        : 30

@@ -1,0 +1,11 @@
+digraph G {
+"declarator -> ID" [shape = box ]
+0 -> 2 [label = "(" ]
+0 -> 1 [label = "ID" ]
+0 -> 3 [label = "decl" ]
+0 -> 5 [label = "declarator" ]
+1 -> "declarator -> ID" [style = dotted,color=red ]
+2 -> 2 [label = "("]
+2 -> 1 [label = "ID"]
+2 -> 5 [label = "declarator"]
+}
