@@ -75,7 +75,7 @@ our $LEX = sub {
 
       m{\G(\s+)}gc and $self->tokenline($1 =~ tr{\n}{});
 
-      m{\G(\n|\&|\@)}gc and return ($1, $1);
+      m{\G(\n|\@|\&)}gc and return ($1, $1);
 
       /\G\d+/gc and return ('NUM', $1);
 
@@ -147,29 +147,29 @@ sub new {
 	},
 	{#State 1
 		ACTIONS => {
+			"\n" => 5,
 			'NUM' => 2,
-			'' => 5,
-			"\n" => 4
+			'' => 3
 		},
 		GOTOS => {
-			'e' => 3
+			'e' => 4
 		}
 	},
 	{#State 2
 		DEFAULT => -4
 	},
 	{#State 3
+		DEFAULT => 0
+	},
+	{#State 4
 		ACTIONS => {
-			"&" => 7,
-			"\@" => 6
+			"&" => 6,
+			"\@" => 7
 		},
 		DEFAULT => -3
 	},
-	{#State 4
-		DEFAULT => -2
-	},
 	{#State 5
-		DEFAULT => 0
+		DEFAULT => -2
 	},
 	{#State 6
 		ACTIONS => {
@@ -189,15 +189,15 @@ sub new {
 	},
 	{#State 8
 		ACTIONS => {
-			"&" => 7
+			"&" => 6
 		},
-		DEFAULT => -6
+		DEFAULT => -5
 	},
 	{#State 9
 		ACTIONS => {
-			"&" => 7
+			"&" => 6
 		},
-		DEFAULT => -5
+		DEFAULT => -6
 	}
 ],
     yyrules  =>

@@ -1,6 +1,7 @@
+#!/usr/bin/perl
 ########################################################################################
 #
-#    This file was generated using Parse::Eyapp version 1.170.
+#    This file was generated using Parse::Eyapp version 1.182.
 #
 # (c) Parse::Yapp Copyright 1998-2001 Francois Desarmenien.
 # (c) Parse::Eyapp Copyright 2006-2008 Casiano Rodriguez-Leon. Universidad de La Laguna.
@@ -57,6 +58,7 @@ use base q{DebugTail};
 # Default lexical analyzer
 our $LEX = sub {
     my $self = shift;
+    my $pos;
 
     for (${$self->input}) {
       
@@ -81,7 +83,7 @@ our $LEX = sub {
 ;
 
 
-#line 84 ./minimalrr.pm
+#line 85 ./minimalrr.pm
 
 my $warnmessage =<< "EOFWARN";
 Warning!: Did you changed the \@minimalrr::ISA variable inside the header section of the eyapp program?
@@ -93,14 +95,21 @@ sub new {
 
   warn $warnmessage unless __PACKAGE__->isa('Parse::Eyapp::Driver'); 
   my($self)=$class->SUPER::new( 
-    yyversion => '1.170',
+    yyversion => '1.182',
     yyGRAMMAR  =>
-[
+[#[productionNameAndLabel => lhs, [ rhs], bypass]]
   [ '_SUPERSTART' => '$start', [ 's', '$end' ], 0 ],
   [ 'S_is_a' => 's', [ 'a' ], 0 ],
   [ 's_2' => 's', [ 'A' ], 0 ],
   [ 'A_is_a' => 'A', [ 'a' ], 0 ],
 ],
+    yyLABELS  =>
+{
+  '_SUPERSTART' => 0,
+  'S_is_a' => 1,
+  's_2' => 2,
+  'A_is_a' => 3,
+},
     yyTERMS  =>
 { '' => { ISSEMANTIC => 0 },
 	'a' => { ISSEMANTIC => 0 },
@@ -111,20 +120,18 @@ sub new {
 [
 	{#State 0
 		ACTIONS => {
-			"a" => 2
+			"a" => 1
 		},
 		GOTOS => {
-			'A' => 1,
+			'A' => 2,
 			's' => 3
 		}
 	},
 	{#State 1
-		DEFAULT => -2
+		DEFAULT => -1
 	},
 	{#State 2
-		ACTIONS => {
-			'' => -1
-		}
+		DEFAULT => -2
 	},
 	{#State 3
 		ACTIONS => {
@@ -139,31 +146,31 @@ sub new {
 [
 	[#Rule _SUPERSTART
 		 '$start', 2, undef
-#line 142 ./minimalrr.pm
+#line 148 ./minimalrr.pm
 	],
 	[#Rule S_is_a
 		 's', 1,
 sub {
 #line 26 "minimalrr.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 149 ./minimalrr.pm
+#line 155 ./minimalrr.pm
 	],
 	[#Rule s_2
 		 's', 1,
 sub {
 #line 26 "minimalrr.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 156 ./minimalrr.pm
+#line 162 ./minimalrr.pm
 	],
 	[#Rule A_is_a
 		 'A', 1,
 sub {
 #line 26 "minimalrr.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 163 ./minimalrr.pm
+#line 169 ./minimalrr.pm
 	]
 ],
-#line 166 ./minimalrr.pm
+#line 172 ./minimalrr.pm
     yybypass       => 0,
     yybuildingtree => 1,
     yyprefix       => '',
@@ -171,6 +178,7 @@ sub {
    },
     yyconflicthandlers => {}
 ,
+    yystateconflict => {  },
     @_,
   );
   bless($self,$class);
@@ -197,7 +205,7 @@ unless (caller) {
 =cut
 
 
-#line 200 ./minimalrr.pm
+#line 207 ./minimalrr.pm
 
 
 
