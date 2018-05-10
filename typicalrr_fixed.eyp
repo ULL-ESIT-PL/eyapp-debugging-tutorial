@@ -9,7 +9,7 @@ Compile it with
 
 Execute it with:
 
-   ./typicalrr_fixed.pm -d -t
+   ./typicalrr_fixed.pm -debug -t
 
 Try inputs C<4 5>,  C<a b> and C<4 5 a b>.
 
