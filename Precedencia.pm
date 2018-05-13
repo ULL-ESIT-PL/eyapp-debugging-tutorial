@@ -109,13 +109,13 @@ sub new {
     yyversion => '1.182',
     yyGRAMMAR  =>
 [#[productionNameAndLabel => lhs, [ rhs], bypass]]
-  [ '_SUPERSTART' => '$start', [ 'list', '$end' ], 1 ],
-  [ 'list_1' => 'list', [  ], 1 ],
-  [ 'list_2' => 'list', [ 'list', '\n' ], 1 ],
-  [ 'list_3' => 'list', [ 'list', 'e' ], 1 ],
-  [ 'NUM' => 'e', [ 'NUM' ], 1 ],
-  [ 'AMPERSAND' => 'e', [ 'e', '&', 'e' ], 1 ],
-  [ 'AT' => 'e', [ 'e', '@', 'e' ], 1 ],
+  [ '_SUPERSTART' => '$start', [ 'list', '$end' ], 0 ],
+  [ 'list_1' => 'list', [  ], 0 ],
+  [ 'list_2' => 'list', [ 'list', '\n' ], 0 ],
+  [ 'list_3' => 'list', [ 'list', 'e' ], 0 ],
+  [ 'NUM' => 'e', [ 'NUM' ], 0 ],
+  [ 'AMPERSAND' => 'e', [ 'e', '&', 'e' ], 0 ],
+  [ 'AT' => 'e', [ 'e', '@', 'e' ], 0 ],
 ],
     yyLABELS  =>
 {
@@ -147,33 +147,33 @@ sub new {
 	},
 	{#State 1
 		ACTIONS => {
-			"\n" => 5,
-			'NUM' => 2,
-			'' => 3
+			'NUM' => 4,
+			'' => 5,
+			"\n" => 2
 		},
 		GOTOS => {
-			'e' => 4
+			'e' => 3
 		}
 	},
 	{#State 2
-		DEFAULT => -4
+		DEFAULT => -2
 	},
 	{#State 3
-		DEFAULT => 0
-	},
-	{#State 4
 		ACTIONS => {
 			"&" => 6,
 			"\@" => 7
 		},
 		DEFAULT => -3
 	},
+	{#State 4
+		DEFAULT => -4
+	},
 	{#State 5
-		DEFAULT => -2
+		DEFAULT => 0
 	},
 	{#State 6
 		ACTIONS => {
-			'NUM' => 2
+			'NUM' => 4
 		},
 		GOTOS => {
 			'e' => 8
@@ -181,7 +181,7 @@ sub new {
 	},
 	{#State 7
 		ACTIONS => {
-			'NUM' => 2
+			'NUM' => 4
 		},
 		GOTOS => {
 			'e' => 9
@@ -253,7 +253,7 @@ sub {
 	]
 ],
 #line 254 ./Precedencia.pm
-    yybypass       => 1,
+    yybypass       => 0,
     yybuildingtree => 1,
     yyprefix       => '',
     yyaccessors    => {

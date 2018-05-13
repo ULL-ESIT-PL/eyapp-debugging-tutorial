@@ -207,6 +207,9 @@ unless (caller) {
 
 #line 207 ./minimalrr.pm
 
+unless (caller) {
+  exit !__PACKAGE__->main('');
+}
 
 
 1;
