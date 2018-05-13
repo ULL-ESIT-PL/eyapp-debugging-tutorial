@@ -5,15 +5,15 @@
 #
 # (c) Parse::Yapp Copyright 1998-2001 Francois Desarmenien.
 # (c) Parse::Eyapp Copyright 2006-2008 Casiano Rodriguez-Leon. Universidad de La Laguna.
-#        Don't edit this file, use source file 'SemanticInfoInTokens.eyp' instead.
+#        Don't edit this file, use source file 'Tieins.eyp' instead.
 #
 #             ANY CHANGE MADE HERE WILL BE LOST !
 #
 ########################################################################################
-package SemanticInfoInTokens;
+package Tieins;
 use strict;
 
-push @SemanticInfoInTokens::ISA, 'Parse::Eyapp::Driver';
+push @Tieins::ISA, 'Parse::Eyapp::Driver';
 
 
 
@@ -29,49 +29,48 @@ BEGIN {
 
 sub unexpendedInput { defined($_) ? substr($_, (defined(pos $_) ? pos $_ : 0)) : '' }
 
-#line 11 "SemanticInfoInTokens.eyp"
+#line 9 "Tieins.eyp"
 
+use base 'DebugTail';
 my %st;
-#line 15 "SemanticInfoInTokens.eyp"
-__PACKAGE__->YYLexer( 
-  sub { # lexical analyzer
-    my $self = $_[0]; 
-    for (${$self->input()}) {  # contextualize
-#line 15 "SemanticInfoInTokens.eyp"
+
+
+# Default lexical analyzer
+our $LEX = sub {
+    my $self = shift;
+    my $pos;
+
+    for (${$self->input}) {
       
-    my $hexflag = $self->{HEXFLAG};
 
-    m{\G\s*(\#.*)?}gc;
+      m{\G(\s+)}gc and $self->tokenline($1 =~ tr{\n}{});
 
-    m{\G(HEX\b|INT\b)}igc and return (uc($1), $1);
+      m{\G(\)|\,|\;|\(|\+|\=)}gc and return ($1, $1);
 
-    m{(\G\d+)}gc and return ('INTEGER', $hexflag? hex($1) : $1);
+      /\G(ID)/gc and return ($1, $1);
+      /\G(INTEGER)/gc and return ($1, $1);
+      /\G(INT)/gc and return ($1, $1);
+      /\G(HEX)/gc and return ($1, $1);
 
 
-    m{\G([a-zA-Z_]\w*)}gc and do {
-        my $match = $1;
-        $hexflag and !exists($st{$match}) and $match =~ m{^([A-F0-9]+$)}gc and return ('INTEGER', hex($match)); 
-        return ('ID', $1);
-    };
-
-    m{\G(.)}gc and return ($1, $1);
-
-    return('',undef);
-         
-#line 60 ./SemanticInfoInTokens.pm
       return ('', undef) if ($_ eq '') || (defined(pos($_)) && (pos($_) >= length($_)));
-      die("Error inside the lexical analyzer. Line: 34. File: SemanticInfoInTokens.eyp. No regexp matched.\n");
-    } 
-  } # end lexical analyzer
-);
+      /\G\s*(\S+)/;
+      my $near = substr($1,0,10); 
+
+      return($near, $near);
+
+     # die( "Error inside the lexical analyzer near '". $near
+     #     ."'. Line: ".$self->line()
+     #     .". File: '".$self->YYFilename()."'. No match found.\n");
+    }
+  }
+;
 
 
-
-
-#line 70 ./SemanticInfoInTokens.pm
+#line 69 ./Tieins.pm
 
 my $warnmessage =<< "EOFWARN";
-Warning!: Did you changed the \@SemanticInfoInTokens::ISA variable inside the header section of the eyapp program?
+Warning!: Did you changed the \@Tieins::ISA variable inside the header section of the eyapp program?
 EOFWARN
 
 sub new {
@@ -96,11 +95,12 @@ sub new {
   [ 'decl_10' => 'decl', [ 'INT', 'PLUS-4' ], 1 ],
   [ 'ID' => 'expr', [ 'ID' ], 1 ],
   [ 'NUM' => 'expr', [ 'INTEGER' ], 1 ],
-  [ 'HEX' => 'expr', [ 'HEX', '(', '@13-2', 'expr', ')' ], 1 ],
+  [ 'HEX' => 'expr', [ 'HEX', '(', '@13-2', 'expr', '@13-4', ')' ], 1 ],
   [ '_CODE' => '@13-2', [  ], 1 ],
+  [ '_CODE' => '@13-4', [  ], 1 ],
   [ 'ASSIGN' => 'expr', [ 'id', '=', 'expr' ], 1 ],
   [ 'PLUS' => 'expr', [ 'expr', '+', 'expr' ], 1 ],
-  [ 'id_17' => 'id', [ 'ID' ], 1 ],
+  [ 'id_18' => 'id', [ 'ID' ], 1 ],
 ],
     yyLABELS  =>
 {
@@ -119,9 +119,10 @@ sub new {
   'NUM' => 12,
   'HEX' => 13,
   '_CODE' => 14,
-  'ASSIGN' => 15,
-  'PLUS' => 16,
-  'id_17' => 17,
+  '_CODE' => 15,
+  'ASSIGN' => 16,
+  'PLUS' => 17,
+  'id_18' => 18,
 },
     yyTERMS  =>
 { '' => { ISSEMANTIC => 0 },
@@ -137,189 +138,197 @@ sub new {
 	INTEGER => { ISSEMANTIC => 1 },
 	error => { ISSEMANTIC => 0 },
 },
-    yyFILENAME  => 'SemanticInfoInTokens.eyp',
+    yyFILENAME  => 'Tieins.eyp',
     yystates =>
 [
 	{#State 0
 		ACTIONS => {
-			'INT' => 1
+			'INT' => 5
 		},
 		DEFAULT => -4,
 		GOTOS => {
-			'decl' => 3,
-			'STAR-2' => 2,
-			'stmt' => 4,
-			'STAR-1' => 5
+			'stmt' => 2,
+			'decl' => 1,
+			'STAR-2' => 4,
+			'STAR-1' => 3
 		}
 	},
 	{#State 1
-		ACTIONS => {
-			'ID' => 6
-		},
-		GOTOS => {
-			'PLUS-4' => 7
-		}
+		DEFAULT => -2
 	},
 	{#State 2
 		ACTIONS => {
-			'ID' => 9,
-			'INTEGER' => 12,
-			'HEX' => 10
-		},
-		GOTOS => {
-			'expr' => 8,
-			'id' => 11,
-			'PLUS-3' => 13
+			'' => 6
 		}
 	},
 	{#State 3
-		DEFAULT => -2
+		ACTIONS => {
+			";" => 7
+		},
+		DEFAULT => -3
 	},
 	{#State 4
 		ACTIONS => {
-			'' => 14
+			'HEX' => 8,
+			'INTEGER' => 13,
+			'ID' => 11
+		},
+		GOTOS => {
+			'expr' => 9,
+			'id' => 10,
+			'PLUS-3' => 12
 		}
 	},
 	{#State 5
 		ACTIONS => {
-			";" => 15
+			'ID' => 14
 		},
-		DEFAULT => -3
+		GOTOS => {
+			'PLUS-4' => 15
+		}
 	},
 	{#State 6
-		DEFAULT => -9
+		DEFAULT => 0
 	},
 	{#State 7
 		ACTIONS => {
-			"," => 16
+			'INT' => 5
 		},
-		DEFAULT => -10
+		GOTOS => {
+			'decl' => 16
+		}
 	},
 	{#State 8
 		ACTIONS => {
-			"+" => 17
-		},
-		DEFAULT => -6
+			"(" => 17
+		}
 	},
 	{#State 9
 		ACTIONS => {
-			"=" => -17
+			"+" => 18
 		},
-		DEFAULT => -11
+		DEFAULT => -6
 	},
 	{#State 10
-		ACTIONS => {
-			"(" => 18
-		}
-	},
-	{#State 11
 		ACTIONS => {
 			"=" => 19
 		}
 	},
-	{#State 12
-		DEFAULT => -12
+	{#State 11
+		ACTIONS => {
+			"=" => -18
+		},
+		DEFAULT => -11
 	},
-	{#State 13
+	{#State 12
 		ACTIONS => {
 			";" => 20
 		},
 		DEFAULT => -7
 	},
+	{#State 13
+		DEFAULT => -12
+	},
 	{#State 14
-		DEFAULT => 0
+		DEFAULT => -9
 	},
 	{#State 15
 		ACTIONS => {
-			'INT' => 1
+			"," => 21
 		},
-		GOTOS => {
-			'decl' => 21
-		}
+		DEFAULT => -10
 	},
 	{#State 16
-		ACTIONS => {
-			'ID' => 22
-		}
+		DEFAULT => -1
 	},
 	{#State 17
-		ACTIONS => {
-			'INTEGER' => 12,
-			'HEX' => 10,
-			'ID' => 9
-		},
+		DEFAULT => -14,
 		GOTOS => {
-			'expr' => 23,
-			'id' => 11
+			'@13-2' => 22
 		}
 	},
 	{#State 18
-		DEFAULT => -14,
+		ACTIONS => {
+			'HEX' => 8,
+			'INTEGER' => 13,
+			'ID' => 11
+		},
 		GOTOS => {
-			'@13-2' => 24
+			'expr' => 23,
+			'id' => 10
 		}
 	},
 	{#State 19
 		ACTIONS => {
-			'HEX' => 10,
-			'INTEGER' => 12,
-			'ID' => 9
+			'HEX' => 8,
+			'ID' => 11,
+			'INTEGER' => 13
 		},
 		GOTOS => {
-			'id' => 11,
-			'expr' => 25
+			'expr' => 24,
+			'id' => 10
 		}
 	},
 	{#State 20
 		ACTIONS => {
-			'ID' => 9,
-			'HEX' => 10,
-			'INTEGER' => 12
+			'INTEGER' => 13,
+			'ID' => 11,
+			'HEX' => 8
 		},
 		GOTOS => {
-			'expr' => 26,
-			'id' => 11
+			'expr' => 25,
+			'id' => 10
 		}
 	},
 	{#State 21
-		DEFAULT => -1
+		ACTIONS => {
+			'ID' => 26
+		}
 	},
 	{#State 22
-		DEFAULT => -8
+		ACTIONS => {
+			'INTEGER' => 13,
+			'ID' => 11,
+			'HEX' => 8
+		},
+		GOTOS => {
+			'id' => 10,
+			'expr' => 27
+		}
 	},
 	{#State 23
-		DEFAULT => -16
+		DEFAULT => -17
 	},
 	{#State 24
 		ACTIONS => {
-			'INTEGER' => 12,
-			'HEX' => 10,
-			'ID' => 9
+			"+" => 18
 		},
-		GOTOS => {
-			'expr' => 27,
-			'id' => 11
-		}
+		DEFAULT => -16
 	},
 	{#State 25
 		ACTIONS => {
-			"+" => 17
-		},
-		DEFAULT => -15
-	},
-	{#State 26
-		ACTIONS => {
-			"+" => 17
+			"+" => 18
 		},
 		DEFAULT => -5
 	},
+	{#State 26
+		DEFAULT => -8
+	},
 	{#State 27
 		ACTIONS => {
-			")" => 28,
-			"+" => 17
+			"+" => 18
+		},
+		DEFAULT => -15,
+		GOTOS => {
+			'@13-4' => 28
 		}
 	},
 	{#State 28
+		ACTIONS => {
+			")" => 29
+		}
+	},
+	{#State 29
 		DEFAULT => -13
 	}
 ],
@@ -327,146 +336,158 @@ sub new {
 [
 	[#Rule _SUPERSTART
 		 '$start', 2, undef
-#line 329 ./SemanticInfoInTokens.pm
+#line 338 ./Tieins.pm
 	],
 	[#Rule _STAR_LIST
 		 'STAR-1', 3,
 sub {
-#line 43 "SemanticInfoInTokens.eyp"
+#line 18 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYActionforT_TX1X2 }
-#line 336 ./SemanticInfoInTokens.pm
+#line 345 ./Tieins.pm
 	],
 	[#Rule _STAR_LIST
 		 'STAR-1', 1,
 sub {
-#line 43 "SemanticInfoInTokens.eyp"
+#line 18 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYActionforT_single }
-#line 343 ./SemanticInfoInTokens.pm
+#line 352 ./Tieins.pm
 	],
 	[#Rule _STAR_LIST
 		 'STAR-2', 1,
 sub {
-#line 43 "SemanticInfoInTokens.eyp"
+#line 18 "Tieins.eyp"
  { $_[1] } # optimize 
 }
-#line 351 ./SemanticInfoInTokens.pm
+#line 360 ./Tieins.pm
 	],
 	[#Rule _STAR_LIST
 		 'STAR-2', 0,
 sub {
-#line 43 "SemanticInfoInTokens.eyp"
+#line 18 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYActionforT_empty }
-#line 358 ./SemanticInfoInTokens.pm
+#line 367 ./Tieins.pm
 	],
 	[#Rule EXPS
 		 'PLUS-3', 3,
 sub {
-#line 43 "SemanticInfoInTokens.eyp"
+#line 18 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYActionforT_TX1X2 }
-#line 365 ./SemanticInfoInTokens.pm
+#line 374 ./Tieins.pm
 	],
 	[#Rule EXPS
 		 'PLUS-3', 1,
 sub {
-#line 43 "SemanticInfoInTokens.eyp"
+#line 18 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYActionforT_single }
-#line 372 ./SemanticInfoInTokens.pm
+#line 381 ./Tieins.pm
 	],
 	[#Rule stmt_7
 		 'stmt', 2,
 sub {
-#line 44 "SemanticInfoInTokens.eyp"
+#line 19 "Tieins.eyp"
 
-        # make the symbol table an attribute 
-        # of the root node
         $_[2]->{st} = { %st };
         $_[2];
       }
-#line 384 ./SemanticInfoInTokens.pm
+#line 391 ./Tieins.pm
 	],
 	[#Rule _PLUS_LIST
 		 'PLUS-4', 3,
 sub {
-#line 53 "SemanticInfoInTokens.eyp"
+#line 26 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYActionforT_TX1X2 }
-#line 391 ./SemanticInfoInTokens.pm
+#line 398 ./Tieins.pm
 	],
 	[#Rule _PLUS_LIST
 		 'PLUS-4', 1,
 sub {
-#line 53 "SemanticInfoInTokens.eyp"
+#line 26 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYActionforT_single }
-#line 398 ./SemanticInfoInTokens.pm
+#line 405 ./Tieins.pm
 	],
 	[#Rule decl_10
 		 'decl', 2,
 sub {
-#line 54 "SemanticInfoInTokens.eyp"
+#line 27 "Tieins.eyp"
 
-        # insert identifiers in the symbol table
         $st{$_->{attr}} = 1 for $_[2]->children();
       }
-#line 408 ./SemanticInfoInTokens.pm
+#line 414 ./Tieins.pm
 	],
 	[#Rule ID
 		 'expr', 1,
 sub {
-#line 39 "SemanticInfoInTokens.eyp"
- goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 415 ./SemanticInfoInTokens.pm
+#line 35 "Tieins.eyp"
+my $ID = $_[1]; 
+        my $parser = shift;
+
+        my $hexflag = $parser->{HEXFLAG};
+        if ($hexflag and !exists($st{$ID}) and $ID =~ m{^([A-F0-9]+$)}) {
+          Parse::Eyapp::Node->new('NUM', sub { $_[0]->{attr} = hex($ID) }); 
+        }
+        else {
+          Parse::Eyapp::Node->new('ID', sub { $_[0]->{attr} = $ID });
+        }
+      }
+#line 431 ./Tieins.pm
 	],
 	[#Rule NUM
 		 'expr', 1,
 sub {
-#line 39 "SemanticInfoInTokens.eyp"
+#line 14 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 422 ./SemanticInfoInTokens.pm
+#line 438 ./Tieins.pm
 	],
 	[#Rule HEX
-		 'expr', 5,
+		 'expr', 6,
 sub {
-#line 67 "SemanticInfoInTokens.eyp"
-my $expr = $_[4];  
-        $_[0]->{HEXFLAG} = 0; 
-        $expr;
-      }
-#line 432 ./SemanticInfoInTokens.pm
+#line 50 "Tieins.eyp"
+my $expr = $_[4];  $expr }
+#line 445 ./Tieins.pm
 	],
 	[#Rule _CODE
 		 '@13-2', 0,
 sub {
-#line 66 "SemanticInfoInTokens.eyp"
+#line 49 "Tieins.eyp"
  $_[0]->{HEXFLAG} = 1; }
-#line 439 ./SemanticInfoInTokens.pm
+#line 452 ./Tieins.pm
+	],
+	[#Rule _CODE
+		 '@13-4', 0,
+sub {
+#line 49 "Tieins.eyp"
+my $expr = $_[4];  $_[0]->{HEXFLAG} = 0 }
+#line 459 ./Tieins.pm
 	],
 	[#Rule ASSIGN
 		 'expr', 3,
 sub {
-#line 39 "SemanticInfoInTokens.eyp"
+#line 14 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 446 ./SemanticInfoInTokens.pm
+#line 466 ./Tieins.pm
 	],
 	[#Rule PLUS
 		 'expr', 3,
 sub {
-#line 39 "SemanticInfoInTokens.eyp"
+#line 14 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 453 ./SemanticInfoInTokens.pm
+#line 473 ./Tieins.pm
 	],
-	[#Rule id_17
+	[#Rule id_18
 		 'id', 1,
 sub {
-#line 39 "SemanticInfoInTokens.eyp"
+#line 14 "Tieins.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 460 ./SemanticInfoInTokens.pm
+#line 480 ./Tieins.pm
 	]
 ],
-#line 463 ./SemanticInfoInTokens.pm
+#line 483 ./Tieins.pm
     yybypass       => 1,
     yybuildingtree => 1,
     yyprefix       => '',
     yyaccessors    => {
       'HEX::expr' => 0,
+      'ID::ID' => 0,
    },
     yyconflicthandlers => {}
 ,
@@ -491,62 +512,58 @@ sub {
          'NUM', 
          'HEX', 
          '_CODE', 
+         '_CODE', 
          'ASSIGN', 
          'PLUS', 
-         'id_17', );
+         'id_18', );
   $self;
 }
 
-#line 80 "SemanticInfoInTokens.eyp"
+#line 60 "Tieins.eyp"
 
 
 # Context-dependant lexer
+__PACKAGE__->lexer( sub {
+    my $parser = shift;
+
+    for (${$parser->input}) {    # contextualize
+      m{\G\s*(\#.*)?}gc;
+
+      m{\G(HEX\b|INT\b)}igc and return (uc($1), $1);
+
+      m{(\G\d+)}gc and return ('INTEGER', $parser->{HEXFLAG}? hex($1) : $1);
+
+
+      return ('ID', $1) if m{\G([a-zA-Z_]\w*)}gc;
+
+      m{\G(.)}gc         and return ($1, $1);
+
+      return('',undef);
+    }
+  }
+);
+
+*TERMINAL::info = *NUM::info = *ID::info = sub {
+  $_[0]->{attr}
+};
+
+__PACKAGE__->main unless caller();
 
 =head1 SYNOPSIS
 
 Compile it with:
 
-                   $ eyapp -C SemanticInfoInTokens.eyp
+            eyapp -b '' Tieins.eyp
 
 Run it with:
 
-                  $ ./SemanticInfoInTokens.pm -t -i -f inputforsemanticinfo.txt
+            ./Tieins.pm -t -f inputforsemanticinfo.txt
 
 try also:
 
-            ./SemanticInfoInTokens.pm -t -i -f inputforsemanticinfo2.txt
-
-=head1 THE TYPENAME-IDENTIFIER PROBLEM WHEN PARSING THE C<C> LANGUAGE
-
-The C language has a context dependency: the way an identifier is used depends
-on what its current meaning is. For example, consider this:
-
-  T(x);
-
-This looks like a function call statement, but if C<T> is a typedef name, then
-this is actually a declaration of C<x>. How can a parser for C decide how to
-parse this input?
-
-Here is another example:
-
-  {
-    T * x;
-    ...
-  }
-
-What is this, a declaration of C<x> as a pointer to C<T>, 
-or a void multiplication of the variables C<T> and C<x>?
-
-The usual method to solve this problem is to have two different token types, C<ID> and C<TYPENAME>.
-When the lexer finds an identifier, it looks up in the symbol table 
-the current declaration of the identifier in order to 
-decide which token type to return: C<TYPENAME> if the
-identifier is declared as a typedef, C<ID> otherwise.
+            ./Tieins.pm -t -f inputforsemanticinfo2.txt
 
 =head1 THIS EXAMPLE
-
-One way to handle context-dependency is the lexical tie-in: a flag which is set
-by the semantic actions, whose purpose is to alter the way tokens are parsed.
 
 In this "Calc"-like example we have a language with a special construct C<hex
 (hex-expr)>. After the keyword C<hex> comes an C<expression> in parentheses in
@@ -554,15 +571,11 @@ which all integers are hexadecimal. In particular, strings in C</[A-F0-9]+/>
 like C<A1B> must be treated as an hex integer unless they were previously
 declared.
 
-Here the lexer looks at the value of the hexflag attribute; when it is nonzero,
-all integers are parsed in hexadecimal, and tokens starting with letters are
-parsed as integers if possible.
-
 =head1 SEE ALSO
 
 =over 2
 
-=item *  File: Tieins.eyp
+=item * File C<SemanticInfoInTokens.eyp>
 
 =item * L<http://www.gnu.org/software/bison/manual/html_mono/bison.html#Lexical-Tie_002dins>
 
@@ -578,11 +591,8 @@ parsed as integers if possible.
 =cut
 
 
-#line 580 ./SemanticInfoInTokens.pm
+#line 593 ./Tieins.pm
 
-unless (caller) {
-  exit !__PACKAGE__->main('');
-}
 
 
 1;
