@@ -138,65 +138,65 @@ sub new {
 [
 	{#State 0
 		ACTIONS => {
-			'D' => 4,
-			'S' => 3
+			'D' => 3,
+			'S' => 2
 		},
 		GOTOS => {
-			'p' => 5,
-			'ss' => 2,
-			'ds' => 1
+			'ss' => 4,
+			'ds' => 5,
+			'p' => 1
 		}
 	},
 	{#State 1
 		ACTIONS => {
-			";" => 6
+			'' => 6
 		}
 	},
 	{#State 2
-		DEFAULT => -2
-	},
-	{#State 3
 		ACTIONS => {
 			";" => 7
 		},
 		DEFAULT => -6
 	},
-	{#State 4
+	{#State 3
 		DEFAULT => -4
+	},
+	{#State 4
+		DEFAULT => -2
 	},
 	{#State 5
 		ACTIONS => {
-			'' => 8
+			";" => 8
 		}
 	},
 	{#State 6
+		DEFAULT => 0
+	},
+	{#State 7
 		ACTIONS => {
-			'S' => 3,
-			'D' => 9
+			'S' => 2
+		},
+		GOTOS => {
+			'ss' => 9
+		}
+	},
+	{#State 8
+		ACTIONS => {
+			'S' => 2,
+			'D' => 11
 		},
 		GOTOS => {
 			'ss' => 10
 		}
 	},
-	{#State 7
-		ACTIONS => {
-			'S' => 3
-		},
-		GOTOS => {
-			'ss' => 11
-		}
-	},
-	{#State 8
-		DEFAULT => 0
-	},
 	{#State 9
-		DEFAULT => -3
+		DEFAULT => -5
 	},
 	{#State 10
 		DEFAULT => -1
 	},
 	{#State 11
-		DEFAULT => -5
+		DEFAULT => -3
 	}
 ],
     yyrules  =>
@@ -288,9 +288,6 @@ __PACKAGE__->main($prompt) unless caller();
 
 #line 288 ./Debug1.pm
 
-unless (caller) {
-  exit !__PACKAGE__->main('');
-}
 
 
 1;

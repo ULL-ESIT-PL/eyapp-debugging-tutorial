@@ -29,7 +29,7 @@ BEGIN {
 
 sub unexpendedInput { defined($_) ? substr($_, (defined(pos $_) ? pos $_ : 0)) : '' }
 
-#line 1 "Debug.eyp"
+#line 3 "Debug.eyp"
 
 =head1 SYNOPSIS
 
@@ -42,9 +42,10 @@ Compile it with
 See the C<Debug.output> file generated.
 Execute the generated modulino with:
 
-      ./Debug.pm -d  # to activate debugging
-      ./Debug.pm -h  # for help
-      ./Debug.pm -d -c  'D; S' 
+      ./Debug.pm --help  # gives help about how to execute the modulino
+      ./Debug.pm -debug  # to activate debugging
+      ./Debug.pm -h      # for help
+      ./Debug.pm --debug -c  'D; S' 
 
 The generated parser will not recognize any input, since its shifts forever.
 Try input C<'D; D; S'>.
@@ -69,8 +70,10 @@ our $LEX = sub {
 
       m{\G(\s+)}gc and $self->tokenline($1 =~ tr{\n}{});
 
-      m{\G(D|S|\;)}gc and return ($1, $1);
+      m{\G(\;)}gc and return ($1, $1);
 
+      /\G(D)/gc and return ($1, $1);
+      /\G(S)/gc and return ($1, $1);
 
 
       return ('', undef) if ($_ eq '') || (defined(pos($_)) && (pos($_) >= length($_)));
@@ -87,7 +90,7 @@ our $LEX = sub {
 ;
 
 
-#line 89 ./Debug.pm
+#line 92 ./Debug.pm
 
 my $warnmessage =<< "EOFWARN";
 Warning!: Did you changed the \@Debug::ISA variable inside the header section of the eyapp program?
@@ -132,20 +135,19 @@ sub new {
 [
 	{#State 0
 		ACTIONS => {
-			'D' => 3,
-			'S' => 1
+			'D' => 1,
+			'S' => 4
 		},
 		GOTOS => {
-			'ds' => 2,
 			'ss' => 5,
-			'p' => 4
+			'ds' => 2,
+			'p' => 3
 		}
 	},
 	{#State 1
 		ACTIONS => {
 			";" => 6
-		},
-		DEFAULT => -6
+		}
 	},
 	{#State 2
 		ACTIONS => {
@@ -154,86 +156,87 @@ sub new {
 	},
 	{#State 3
 		ACTIONS => {
-			";" => 8
+			'' => 8
 		}
 	},
 	{#State 4
 		ACTIONS => {
-			'' => 9
-		}
+			";" => 9
+		},
+		DEFAULT => -6
 	},
 	{#State 5
 		DEFAULT => -2
 	},
 	{#State 6
 		ACTIONS => {
-			'S' => 1
+			'D' => 1
 		},
 		GOTOS => {
-			'ss' => 10
+			'ds' => 10
 		}
 	},
 	{#State 7
 		ACTIONS => {
-			'S' => 1
+			'S' => 4
 		},
 		GOTOS => {
 			'ss' => 11
 		}
 	},
 	{#State 8
-		ACTIONS => {
-			'D' => 3
-		},
-		GOTOS => {
-			'ds' => 12
-		}
-	},
-	{#State 9
 		DEFAULT => 0
 	},
+	{#State 9
+		ACTIONS => {
+			'S' => 4
+		},
+		GOTOS => {
+			'ss' => 12
+		}
+	},
 	{#State 10
-		DEFAULT => -5
+		DEFAULT => -3
 	},
 	{#State 11
 		DEFAULT => -1
 	},
 	{#State 12
-		DEFAULT => -3
+		DEFAULT => -5
 	}
 ],
     yyrules  =>
 [
 	[#Rule _SUPERSTART
 		 '$start', 2, undef
-#line 208 ./Debug.pm
+#line 211 ./Debug.pm
 	],
 	[#Rule p_1
 		 'p', 3, undef
-#line 212 ./Debug.pm
+#line 215 ./Debug.pm
 	],
 	[#Rule p_2
 		 'p', 1, undef
-#line 216 ./Debug.pm
+#line 219 ./Debug.pm
 	],
 	[#Rule ds_3
 		 'ds', 3, undef
-#line 220 ./Debug.pm
+#line 223 ./Debug.pm
 	],
 	[#Rule ds_4
 		 'ds', 1, undef
-#line 224 ./Debug.pm
+#line 227 ./Debug.pm
 	],
 	[#Rule ss_5
 		 'ss', 3, undef
-#line 228 ./Debug.pm
+#line 231 ./Debug.pm
 	],
 	[#Rule ss_6
 		 'ss', 1, undef
-#line 232 ./Debug.pm
+#line 235 ./Debug.pm
 	]
 ],
-#line 235 ./Debug.pm
+#line 238 ./Debug.pm
     yybypass       => 0,
     yybuildingtree => 0,
     yyprefix       => '',
@@ -257,7 +260,7 @@ sub new {
   $self;
 }
 
-#line 46 "Debug.eyp"
+#line 49 "Debug.eyp"
 
 
 
@@ -267,7 +270,7 @@ sub new {
 =cut
 
 
-#line 269 ./Debug.pm
+#line 272 ./Debug.pm
 
 unless (caller) {
   exit !__PACKAGE__->main('');
