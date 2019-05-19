@@ -2,7 +2,7 @@
 
 * [Tutorial at CPAN Parse::Eyapp::debuggingtut](https://metacpan.org/pod/release/CASIANO/Parse-Eyapp-1.182/lib/Parse/Eyapp/debuggingtut.pod)
 
-* Use version 1.182 for this examples. I am not sure if they will work with current versions of Eyapp:
+* Use version 1.182 for this examples. I am not sure if they will work with current versions of [Eyapp](https://metacpan.org/pod/distribution/Parse-Eyapp/eyapp):
 
   ```
   $ eyapp -V
