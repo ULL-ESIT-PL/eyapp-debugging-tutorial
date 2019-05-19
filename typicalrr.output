@@ -4,7 +4,7 @@ Warnings:
 Conflicts:
 ----------
 State 1 contains 1 shift/reduce conflict and 3 reduce/reduce conflicts
-State 3 contains 1 shift/reduce conflict
+State 2 contains 1 shift/reduce conflict
 State 4 contains 1 shift/reduce conflict
 
 Rules:
@@ -34,7 +34,7 @@ State 1:
 	s -> s . ws	(Rule 2)
 	s -> s . ns	(Rule 3)
 
-	$end	shift, and go to state 2
+	$end	shift, and go to state 3
 
 	$end	[reduce using rule 6 (ws)]
 	$end	[reduce using rule 4 (ns)]
@@ -43,48 +43,48 @@ State 1:
 	NUM	[reduce using rule 6 (ws)]
 	NUM	reduce using rule 4 (ns)
 
-	ws	go to state 3
-	ns	go to state 4
+	ws	go to state 4
+	ns	go to state 2
 
 State 2:
-
-	$start -> s $end .	(Rule 0)
-
-	$default	accept
-
-State 3:
-
-	s -> s ws .	(Rule 2)
-	ws -> ws . ID	(Rule 7)
-
-	ID	shift, and go to state 5
-
-	$end	reduce using rule 2 (s)
-	ID	[reduce using rule 2 (s)]
-	NUM	reduce using rule 2 (s)
-
-State 4:
 
 	s -> s ns .	(Rule 3)
 	ns -> ns . NUM	(Rule 5)
 
-	NUM	shift, and go to state 6
+	NUM	shift, and go to state 5
 
 	$end	reduce using rule 3 (s)
 	ID	reduce using rule 3 (s)
 	NUM	[reduce using rule 3 (s)]
 
+State 3:
+
+	$start -> s $end .	(Rule 0)
+
+	$default	accept
+
+State 4:
+
+	s -> s ws .	(Rule 2)
+	ws -> ws . ID	(Rule 7)
+
+	ID	shift, and go to state 6
+
+	$end	reduce using rule 2 (s)
+	ID	[reduce using rule 2 (s)]
+	NUM	reduce using rule 2 (s)
+
 State 5:
-
-	ws -> ws ID .	(Rule 7)
-
-	$default	reduce using rule 7 (ws)
-
-State 6:
 
 	ns -> ns NUM .	(Rule 5)
 
 	$default	reduce using rule 5 (ns)
+
+State 6:
+
+	ws -> ws ID .	(Rule 7)
+
+	$default	reduce using rule 7 (ws)
 
 
 Summary:

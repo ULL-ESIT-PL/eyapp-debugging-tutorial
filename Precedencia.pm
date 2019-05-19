@@ -109,13 +109,13 @@ sub new {
     yyversion => '1.182',
     yyGRAMMAR  =>
 [#[productionNameAndLabel => lhs, [ rhs], bypass]]
-  [ '_SUPERSTART' => '$start', [ 'list', '$end' ], 0 ],
-  [ 'list_1' => 'list', [  ], 0 ],
-  [ 'list_2' => 'list', [ 'list', '\n' ], 0 ],
-  [ 'list_3' => 'list', [ 'list', 'e' ], 0 ],
-  [ 'NUM' => 'e', [ 'NUM' ], 0 ],
-  [ 'AMPERSAND' => 'e', [ 'e', '&', 'e' ], 0 ],
-  [ 'AT' => 'e', [ 'e', '@', 'e' ], 0 ],
+  [ '_SUPERSTART' => '$start', [ 'list', '$end' ], 1 ],
+  [ 'list_1' => 'list', [  ], 1 ],
+  [ 'list_2' => 'list', [ 'list', '\n' ], 1 ],
+  [ 'list_3' => 'list', [ 'list', 'e' ], 1 ],
+  [ 'NUM' => 'e', [ 'NUM' ], 1 ],
+  [ 'AMPERSAND' => 'e', [ 'e', '&', 'e' ], 1 ],
+  [ 'AT' => 'e', [ 'e', '@', 'e' ], 1 ],
 ],
     yyLABELS  =>
 {
@@ -133,7 +133,6 @@ sub new {
 	'@' => { ISSEMANTIC => 0 },
 	'\n' => { ISSEMANTIC => 0 },
 	NUM => { ISSEMANTIC => 1 },
-	dummy => { ISSEMANTIC => 1 },
 	error => { ISSEMANTIC => 0 },
 },
     yyFILENAME  => 'Precedencia.eyp',
@@ -147,33 +146,33 @@ sub new {
 	},
 	{#State 1
 		ACTIONS => {
-			'NUM' => 4,
+			"\n" => 4,
 			'' => 5,
-			"\n" => 2
+			'NUM' => 3
 		},
 		GOTOS => {
-			'e' => 3
+			'e' => 2
 		}
 	},
 	{#State 2
-		DEFAULT => -2
-	},
-	{#State 3
 		ACTIONS => {
-			"&" => 6,
-			"\@" => 7
+			"&" => 7,
+			"\@" => 6
 		},
 		DEFAULT => -3
 	},
-	{#State 4
+	{#State 3
 		DEFAULT => -4
+	},
+	{#State 4
+		DEFAULT => -2
 	},
 	{#State 5
 		DEFAULT => 0
 	},
 	{#State 6
 		ACTIONS => {
-			'NUM' => 4
+			'NUM' => 3
 		},
 		GOTOS => {
 			'e' => 8
@@ -181,7 +180,7 @@ sub new {
 	},
 	{#State 7
 		ACTIONS => {
-			'NUM' => 4
+			'NUM' => 3
 		},
 		GOTOS => {
 			'e' => 9
@@ -189,36 +188,36 @@ sub new {
 	},
 	{#State 8
 		ACTIONS => {
-			"&" => 6
+			"&" => 7
 		},
-		DEFAULT => -5
+		DEFAULT => -6
 	},
 	{#State 9
 		ACTIONS => {
-			"&" => 6
+			"&" => 7
 		},
-		DEFAULT => -6
+		DEFAULT => -5
 	}
 ],
     yyrules  =>
 [
 	[#Rule _SUPERSTART
 		 '$start', 2, undef
-#line 206 ./Precedencia.pm
+#line 205 ./Precedencia.pm
 	],
 	[#Rule list_1
 		 'list', 0,
 sub {
 #line 40 "Precedencia.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 213 ./Precedencia.pm
+#line 212 ./Precedencia.pm
 	],
 	[#Rule list_2
 		 'list', 2,
 sub {
 #line 44 "Precedencia.eyp"
 }
-#line 220 ./Precedencia.pm
+#line 219 ./Precedencia.pm
 	],
 	[#Rule list_3
 		 'list', 2,
@@ -228,32 +227,32 @@ my $list = $_[1]; my $e = $_[2];  print $e->str."\n";
                  $e->png(); 
                  $e; 
                }
-#line 230 ./Precedencia.pm
+#line 229 ./Precedencia.pm
 	],
 	[#Rule NUM
 		 'e', 1,
 sub {
 #line 40 "Precedencia.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 237 ./Precedencia.pm
+#line 236 ./Precedencia.pm
 	],
 	[#Rule AMPERSAND
 		 'e', 3,
 sub {
 #line 40 "Precedencia.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 244 ./Precedencia.pm
+#line 243 ./Precedencia.pm
 	],
 	[#Rule AT
 		 'e', 3,
 sub {
 #line 40 "Precedencia.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 251 ./Precedencia.pm
+#line 250 ./Precedencia.pm
 	]
 ],
-#line 254 ./Precedencia.pm
-    yybypass       => 0,
+#line 253 ./Precedencia.pm
+    yybypass       => 1,
     yybuildingtree => 1,
     yyprefix       => '',
     yyaccessors    => {
@@ -308,7 +307,7 @@ __PACKAGE__->lexer(
 =cut
 
 
-#line 310 ./Precedencia.pm
+#line 309 ./Precedencia.pm
 
 unless (caller) {
   exit !__PACKAGE__->main('');

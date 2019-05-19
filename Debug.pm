@@ -1,6 +1,7 @@
+#!/usr/bin/perl
 ########################################################################################
 #
-#    This file was generated using Parse::Eyapp version 1.170.
+#    This file was generated using Parse::Eyapp version 1.182.
 #
 # (c) Parse::Yapp Copyright 1998-2001 Francois Desarmenien.
 # (c) Parse::Eyapp Copyright 2006-2008 Casiano Rodriguez-Leon. Universidad de La Laguna.
@@ -61,13 +62,14 @@ Try input C<'D; D; S'>.
 # Default lexical analyzer
 our $LEX = sub {
     my $self = shift;
+    my $pos;
 
     for (${$self->input}) {
       
 
       m{\G(\s+)}gc and $self->tokenline($1 =~ tr{\n}{});
 
-      m{\G(S|\;|D)}gc and return ($1, $1);
+      m{\G(D|S|\;)}gc and return ($1, $1);
 
 
 
@@ -85,7 +87,7 @@ our $LEX = sub {
 ;
 
 
-#line 88 ./Debug.pm
+#line 89 ./Debug.pm
 
 my $warnmessage =<< "EOFWARN";
 Warning!: Did you changed the \@Debug::ISA variable inside the header section of the eyapp program?
@@ -97,9 +99,9 @@ sub new {
 
   warn $warnmessage unless __PACKAGE__->isa('Parse::Eyapp::Driver'); 
   my($self)=$class->SUPER::new( 
-    yyversion => '1.170',
+    yyversion => '1.182',
     yyGRAMMAR  =>
-[
+[#[productionNameAndLabel => lhs, [ rhs], bypass]]
   [ '_SUPERSTART' => '$start', [ 'p', '$end' ], 0 ],
   [ 'p_1' => 'p', [ 'ds', ';', 'ss' ], 0 ],
   [ 'p_2' => 'p', [ 'ss' ], 0 ],
@@ -108,6 +110,16 @@ sub new {
   [ 'ss_5' => 'ss', [ 'S', ';', 'ss' ], 0 ],
   [ 'ss_6' => 'ss', [ 'S' ], 0 ],
 ],
+    yyLABELS  =>
+{
+  '_SUPERSTART' => 0,
+  'p_1' => 1,
+  'p_2' => 2,
+  'ds_3' => 3,
+  'ds_4' => 4,
+  'ss_5' => 5,
+  'ss_6' => 6,
+},
     yyTERMS  =>
 { '' => { ISSEMANTIC => 0 },
 	';' => { ISSEMANTIC => 0 },
@@ -120,38 +132,38 @@ sub new {
 [
 	{#State 0
 		ACTIONS => {
-			'S' => 1,
-			'D' => 4
+			'D' => 3,
+			'S' => 1
 		},
 		GOTOS => {
-			'p' => 2,
-			'ss' => 3,
-			'ds' => 5
+			'ds' => 2,
+			'ss' => 5,
+			'p' => 4
 		}
 	},
 	{#State 1
 		ACTIONS => {
-			'' => -6,
 			";" => 6
-		}
+		},
+		DEFAULT => -6
 	},
 	{#State 2
 		ACTIONS => {
-			'' => 7
+			";" => 7
 		}
 	},
 	{#State 3
-		DEFAULT => -2
-	},
-	{#State 4
 		ACTIONS => {
 			";" => 8
 		}
 	},
-	{#State 5
+	{#State 4
 		ACTIONS => {
-			";" => 9
+			'' => 9
 		}
+	},
+	{#State 5
+		DEFAULT => -2
 	},
 	{#State 6
 		ACTIONS => {
@@ -162,66 +174,66 @@ sub new {
 		}
 	},
 	{#State 7
-		DEFAULT => 0
-	},
-	{#State 8
-		ACTIONS => {
-			'D' => 4
-		},
-		GOTOS => {
-			'ds' => 11
-		}
-	},
-	{#State 9
 		ACTIONS => {
 			'S' => 1
 		},
 		GOTOS => {
-			'ss' => 12
+			'ss' => 11
 		}
+	},
+	{#State 8
+		ACTIONS => {
+			'D' => 3
+		},
+		GOTOS => {
+			'ds' => 12
+		}
+	},
+	{#State 9
+		DEFAULT => 0
 	},
 	{#State 10
 		DEFAULT => -5
 	},
 	{#State 11
-		DEFAULT => -3
+		DEFAULT => -1
 	},
 	{#State 12
-		DEFAULT => -1
+		DEFAULT => -3
 	}
 ],
     yyrules  =>
 [
 	[#Rule _SUPERSTART
 		 '$start', 2, undef
-#line 197 ./Debug.pm
+#line 208 ./Debug.pm
 	],
 	[#Rule p_1
 		 'p', 3, undef
-#line 201 ./Debug.pm
+#line 212 ./Debug.pm
 	],
 	[#Rule p_2
 		 'p', 1, undef
-#line 205 ./Debug.pm
+#line 216 ./Debug.pm
 	],
 	[#Rule ds_3
 		 'ds', 3, undef
-#line 209 ./Debug.pm
+#line 220 ./Debug.pm
 	],
 	[#Rule ds_4
 		 'ds', 1, undef
-#line 213 ./Debug.pm
+#line 224 ./Debug.pm
 	],
 	[#Rule ss_5
 		 'ss', 3, undef
-#line 217 ./Debug.pm
+#line 228 ./Debug.pm
 	],
 	[#Rule ss_6
 		 'ss', 1, undef
-#line 221 ./Debug.pm
+#line 232 ./Debug.pm
 	]
 ],
-#line 224 ./Debug.pm
+#line 235 ./Debug.pm
     yybypass       => 0,
     yybuildingtree => 0,
     yyprefix       => '',
@@ -229,6 +241,7 @@ sub new {
    },
     yyconflicthandlers => {}
 ,
+    yystateconflict => {  },
     @_,
   );
   bless($self,$class);
@@ -254,8 +267,11 @@ sub new {
 =cut
 
 
-#line 257 ./Debug.pm
+#line 269 ./Debug.pm
 
+unless (caller) {
+  exit !__PACKAGE__->main('');
+}
 
 
 1;

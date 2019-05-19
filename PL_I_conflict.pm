@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 ########################################################################################
 #
-#    This file was generated using Parse::Eyapp version 1.168.
+#    This file was generated using Parse::Eyapp version 1.182.
 #
 # (c) Parse::Yapp Copyright 1998-2001 Francois Desarmenien.
 # (c) Parse::Eyapp Copyright 2006-2008 Casiano Rodriguez-Leon. Universidad de La Laguna.
@@ -54,7 +54,7 @@ for more detail:
 
 and also
 
-               ./PL_I_conflict.pm -t -c 'if then=if then if=then'
+               ./PL_I_conflict.pm -t -i -c 'if then=if then if=then
 
 The problem arises again
 
@@ -108,9 +108,9 @@ sub new {
 
   warn $warnmessage unless __PACKAGE__->isa('Parse::Eyapp::Driver'); 
   my($self)=$class->SUPER::new( 
-    yyversion => '1.168',
+    yyversion => '1.182',
     yyGRAMMAR  =>
-[
+[#[productionNameAndLabel => lhs, [ rhs], bypass]]
   [ '_SUPERSTART' => '$start', [ 'stmt', '$end' ], 1 ],
   [ 'stmt_1' => 'stmt', [ 'ifstmt' ], 1 ],
   [ 'stmt_2' => 'stmt', [ 'assignstmt' ], 1 ],
@@ -120,6 +120,17 @@ sub new {
   [ 'expr_6' => 'expr', [ 'id' ], 1 ],
   [ 'ID' => 'id', [ 'ID' ], 1 ],
 ],
+    yyLABELS  =>
+{
+  '_SUPERSTART' => 0,
+  'stmt_1' => 1,
+  'stmt_2' => 2,
+  'IF' => 3,
+  'ASSIGN' => 4,
+  'EQ' => 5,
+  'expr_6' => 6,
+  'ID' => 7,
+},
     yyTERMS  =>
 { '' => { ISSEMANTIC => 0 },
 	'=' => { ISSEMANTIC => 0 },
@@ -133,43 +144,43 @@ sub new {
 [
 	{#State 0
 		ACTIONS => {
-			"if" => 2,
-			'ID' => 1
+			'ID' => 6,
+			"if" => 2
 		},
 		GOTOS => {
-			'stmt' => 3,
-			'assignstmt' => 4,
-			'ifstmt' => 5,
-			'id' => 6
+			'stmt' => 5,
+			'id' => 4,
+			'ifstmt' => 1,
+			'assignstmt' => 3
 		}
 	},
 	{#State 1
-		DEFAULT => -7
+		DEFAULT => -1
 	},
 	{#State 2
 		ACTIONS => {
-			'ID' => 1
+			'ID' => 6
 		},
 		GOTOS => {
-			'expr' => 7,
-			'id' => 8
+			'id' => 8,
+			'expr' => 7
 		}
 	},
 	{#State 3
-		ACTIONS => {
-			'' => 9
-		}
-	},
-	{#State 4
 		DEFAULT => -2
 	},
+	{#State 4
+		ACTIONS => {
+			"=" => 9
+		}
+	},
 	{#State 5
-		DEFAULT => -1
+		ACTIONS => {
+			'' => 10
+		}
 	},
 	{#State 6
-		ACTIONS => {
-			"=" => 10
-		}
+		DEFAULT => -7
 	},
 	{#State 7
 		ACTIONS => {
@@ -183,32 +194,32 @@ sub new {
 		DEFAULT => -6
 	},
 	{#State 9
-		DEFAULT => 0
-	},
-	{#State 10
 		ACTIONS => {
-			'ID' => 1
+			'ID' => 6
 		},
 		GOTOS => {
 			'expr' => 13,
 			'id' => 8
 		}
 	},
+	{#State 10
+		DEFAULT => 0
+	},
 	{#State 11
 		ACTIONS => {
-			"if" => 2,
-			'ID' => 1
+			'ID' => 6,
+			"if" => 2
 		},
 		GOTOS => {
-			'stmt' => 14,
-			'assignstmt' => 4,
-			'ifstmt' => 5,
-			'id' => 6
+			'ifstmt' => 1,
+			'assignstmt' => 3,
+			'id' => 4,
+			'stmt' => 14
 		}
 	},
 	{#State 12
 		ACTIONS => {
-			'ID' => 1
+			'ID' => 6
 		},
 		GOTOS => {
 			'id' => 15
@@ -228,59 +239,59 @@ sub new {
 [
 	[#Rule _SUPERSTART
 		 '$start', 2, undef
-#line 230 ./PL_I_conflict.pm
+#line 241 ./PL_I_conflict.pm
 	],
 	[#Rule stmt_1
 		 'stmt', 1,
 sub {
 #line 59 "PL_I_conflict.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 237 ./PL_I_conflict.pm
+#line 248 ./PL_I_conflict.pm
 	],
 	[#Rule stmt_2
 		 'stmt', 1,
 sub {
 #line 59 "PL_I_conflict.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 244 ./PL_I_conflict.pm
+#line 255 ./PL_I_conflict.pm
 	],
 	[#Rule IF
 		 'ifstmt', 4,
 sub {
 #line 59 "PL_I_conflict.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 251 ./PL_I_conflict.pm
+#line 262 ./PL_I_conflict.pm
 	],
 	[#Rule ASSIGN
 		 'assignstmt', 3,
 sub {
 #line 59 "PL_I_conflict.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 258 ./PL_I_conflict.pm
+#line 269 ./PL_I_conflict.pm
 	],
 	[#Rule EQ
 		 'expr', 3,
 sub {
 #line 59 "PL_I_conflict.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 265 ./PL_I_conflict.pm
+#line 276 ./PL_I_conflict.pm
 	],
 	[#Rule expr_6
 		 'expr', 1,
 sub {
 #line 59 "PL_I_conflict.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 272 ./PL_I_conflict.pm
+#line 283 ./PL_I_conflict.pm
 	],
 	[#Rule ID
 		 'id', 1,
 sub {
 #line 59 "PL_I_conflict.eyp"
  goto &Parse::Eyapp::Driver::YYBuildAST }
-#line 279 ./PL_I_conflict.pm
+#line 290 ./PL_I_conflict.pm
 	]
 ],
-#line 282 ./PL_I_conflict.pm
+#line 293 ./PL_I_conflict.pm
     yybypass       => 1,
     yybuildingtree => 1,
     yyprefix       => '',
@@ -288,6 +299,7 @@ sub {
    },
     yyconflicthandlers => {}
 ,
+    yystateconflict => {  },
     @_,
   );
   bless($self,$class);
@@ -316,7 +328,7 @@ sub {
 =cut
 
 
-#line 318 ./PL_I_conflict.pm
+#line 330 ./PL_I_conflict.pm
 
 unless (caller) {
   exit !__PACKAGE__->main('');

@@ -204,37 +204,37 @@ sub new {
 	},
 	{#State 1
 		ACTIONS => {
+			'' => 3,
 			'NUM' => -4,
-			'ID' => -4,
-			'' => 2
+			'ID' => -4
 		},
 		GOTOS => {
-			'ws' => 3,
-			'ns' => 4
+			'ws' => 4,
+			'ns' => 2
 		}
 	},
 	{#State 2
-		DEFAULT => 0
+		ACTIONS => {
+			'ID' => -3,
+			'NUM' => 5,
+			'' => -3
+		}
 	},
 	{#State 3
-		ACTIONS => {
-			'NUM' => -2,
-			'' => -2,
-			'ID' => 5
-		}
+		DEFAULT => 0
 	},
 	{#State 4
 		ACTIONS => {
-			'NUM' => 6,
-			'' => -3,
-			'ID' => -3
+			'' => -2,
+			'NUM' => -2,
+			'ID' => 6
 		}
 	},
 	{#State 5
-		DEFAULT => -7
+		DEFAULT => -5
 	},
 	{#State 6
-		DEFAULT => -5
+		DEFAULT => -7
 	}
 ],
     yyrules  =>

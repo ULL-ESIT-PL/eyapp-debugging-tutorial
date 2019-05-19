@@ -45,11 +45,11 @@ our $LEX = sub {
 
       m{\G(\s+)}gc and $self->tokenline($1 =~ tr{\n}{});
 
-      m{\G(\)|\,|\;|\(|\+|\=)}gc and return ($1, $1);
+      m{\G(\;|\+|\(|\)|\=|\,)}gc and return ($1, $1);
 
+      /\G(INT)/gc and return ($1, $1);
       /\G(ID)/gc and return ($1, $1);
       /\G(INTEGER)/gc and return ($1, $1);
-      /\G(INT)/gc and return ($1, $1);
       /\G(HEX)/gc and return ($1, $1);
 
 
@@ -147,50 +147,47 @@ sub new {
 		},
 		DEFAULT => -4,
 		GOTOS => {
+			'STAR-1' => 1,
 			'stmt' => 2,
-			'decl' => 1,
-			'STAR-2' => 4,
-			'STAR-1' => 3
+			'STAR-2' => 3,
+			'decl' => 4
 		}
 	},
 	{#State 1
-		DEFAULT => -2
+		ACTIONS => {
+			";" => 6
+		},
+		DEFAULT => -3
 	},
 	{#State 2
 		ACTIONS => {
-			'' => 6
+			'' => 7
 		}
 	},
 	{#State 3
 		ACTIONS => {
-			";" => 7
-		},
-		DEFAULT => -3
-	},
-	{#State 4
-		ACTIONS => {
-			'HEX' => 8,
-			'INTEGER' => 13,
-			'ID' => 11
+			'HEX' => 9,
+			'ID' => 12,
+			'INTEGER' => 13
 		},
 		GOTOS => {
-			'expr' => 9,
-			'id' => 10,
-			'PLUS-3' => 12
+			'expr' => 10,
+			'PLUS-3' => 11,
+			'id' => 8
 		}
+	},
+	{#State 4
+		DEFAULT => -2
 	},
 	{#State 5
 		ACTIONS => {
-			'ID' => 14
+			'ID' => 15
 		},
 		GOTOS => {
-			'PLUS-4' => 15
+			'PLUS-4' => 14
 		}
 	},
 	{#State 6
-		DEFAULT => 0
-	},
-	{#State 7
 		ACTIONS => {
 			'INT' => 5
 		},
@@ -198,86 +195,89 @@ sub new {
 			'decl' => 16
 		}
 	},
+	{#State 7
+		DEFAULT => 0
+	},
 	{#State 8
 		ACTIONS => {
-			"(" => 17
+			"=" => 17
 		}
 	},
 	{#State 9
 		ACTIONS => {
-			"+" => 18
-		},
-		DEFAULT => -6
+			"(" => 18
+		}
 	},
 	{#State 10
 		ACTIONS => {
-			"=" => 19
-		}
+			"+" => 19
+		},
+		DEFAULT => -6
 	},
 	{#State 11
-		ACTIONS => {
-			"=" => -18
-		},
-		DEFAULT => -11
-	},
-	{#State 12
 		ACTIONS => {
 			";" => 20
 		},
 		DEFAULT => -7
 	},
+	{#State 12
+		ACTIONS => {
+			"=" => -18
+		},
+		DEFAULT => -11
+	},
 	{#State 13
 		DEFAULT => -12
 	},
 	{#State 14
-		DEFAULT => -9
-	},
-	{#State 15
 		ACTIONS => {
 			"," => 21
 		},
 		DEFAULT => -10
 	},
+	{#State 15
+		DEFAULT => -9
+	},
 	{#State 16
 		DEFAULT => -1
 	},
 	{#State 17
-		DEFAULT => -14,
+		ACTIONS => {
+			'ID' => 12,
+			'INTEGER' => 13,
+			'HEX' => 9
+		},
 		GOTOS => {
-			'@13-2' => 22
+			'expr' => 22,
+			'id' => 8
 		}
 	},
 	{#State 18
-		ACTIONS => {
-			'HEX' => 8,
-			'INTEGER' => 13,
-			'ID' => 11
-		},
+		DEFAULT => -14,
 		GOTOS => {
-			'expr' => 23,
-			'id' => 10
+			'@13-2' => 23
 		}
 	},
 	{#State 19
 		ACTIONS => {
-			'HEX' => 8,
-			'ID' => 11,
-			'INTEGER' => 13
+			'ID' => 12,
+			'INTEGER' => 13,
+			'HEX' => 9
 		},
 		GOTOS => {
 			'expr' => 24,
-			'id' => 10
+			'id' => 8
 		}
 	},
 	{#State 20
 		ACTIONS => {
 			'INTEGER' => 13,
-			'ID' => 11,
-			'HEX' => 8
+			'ID' => 12,
+			'HEX' => 9
 		},
 		GOTOS => {
-			'expr' => 25,
-			'id' => 10
+			'id' => 8,
+			'expr' => 25
 		}
 	},
 	{#State 21
@@ -287,27 +287,27 @@ sub new {
 	},
 	{#State 22
 		ACTIONS => {
-			'INTEGER' => 13,
-			'ID' => 11,
-			'HEX' => 8
-		},
-		GOTOS => {
-			'id' => 10,
-			'expr' => 27
-		}
-	},
-	{#State 23
-		DEFAULT => -17
-	},
-	{#State 24
-		ACTIONS => {
-			"+" => 18
+			"+" => 19
 		},
 		DEFAULT => -16
 	},
+	{#State 23
+		ACTIONS => {
+			'HEX' => 9,
+			'INTEGER' => 13,
+			'ID' => 12
+		},
+		GOTOS => {
+			'expr' => 27,
+			'id' => 8
+		}
+	},
+	{#State 24
+		DEFAULT => -17
+	},
 	{#State 25
 		ACTIONS => {
-			"+" => 18
+			"+" => 19
 		},
 		DEFAULT => -5
 	},
@@ -316,7 +316,7 @@ sub new {
 	},
 	{#State 27
 		ACTIONS => {
-			"+" => 18
+			"+" => 19
 		},
 		DEFAULT => -15,
 		GOTOS => {

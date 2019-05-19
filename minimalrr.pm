@@ -123,20 +123,20 @@ sub new {
 			"a" => 1
 		},
 		GOTOS => {
-			'A' => 2,
-			's' => 3
+			's' => 2,
+			'A' => 3
 		}
 	},
 	{#State 1
 		DEFAULT => -1
 	},
 	{#State 2
-		DEFAULT => -2
-	},
-	{#State 3
 		ACTIONS => {
 			'' => 4
 		}
+	},
+	{#State 3
+		DEFAULT => -2
 	},
 	{#State 4
 		DEFAULT => 0
@@ -207,9 +207,6 @@ unless (caller) {
 
 #line 207 ./minimalrr.pm
 
-unless (caller) {
-  exit !__PACKAGE__->main('');
-}
 
 
 1;

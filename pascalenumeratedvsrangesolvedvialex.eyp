@@ -13,11 +13,11 @@ See
 
 Compile it with:
 
-            eyapp -b '' nolalrrrconflictsolved
+            eyapp -b '' pascalenumeratedvsrangesolvedvialex.eyp 
 
 run it with this options:
 
-            ./nolalrrrconflictsolved.pm -t -d
+            ./pascalenumeratedvsrangesolvedvialex.pm -t --info 
 
 Try these inputs:
 

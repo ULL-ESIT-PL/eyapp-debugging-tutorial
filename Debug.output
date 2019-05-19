@@ -3,7 +3,7 @@ Warnings:
 1 shift/reduce conflict 
 Conflicts:
 ----------
-State 4 contains 1 shift/reduce conflict
+State 2 contains 1 shift/reduce conflict
 
 Rules:
 ------
@@ -21,42 +21,42 @@ State 0:
 
 	$start -> . p $end	(Rule 0)
 
-	D	shift, and go to state 4
-	S	shift, and go to state 1
+	D	shift, and go to state 2
+	S	shift, and go to state 3
 
-	p	go to state 2
-	ss	go to state 3
 	ds	go to state 5
+	p	go to state 1
+	ss	go to state 4
 
 State 1:
 
-	ss -> S . ';' ss	(Rule 5)
-	ss -> S .	(Rule 6)
-
-	';'	shift, and go to state 6
-
-	$end	reduce using rule 6 (ss)
-
-State 2:
-
 	$start -> p . $end	(Rule 0)
 
-	$end	shift, and go to state 7
+	$end	shift, and go to state 6
 
-State 3:
-
-	p -> ss .	(Rule 2)
-
-	$default	reduce using rule 2 (p)
-
-State 4:
+State 2:
 
 	ds -> D . ';' ds	(Rule 3)
 	ds -> D .	(Rule 4)
 
-	';'	shift, and go to state 8
+	';'	shift, and go to state 7
 
 	';'	[reduce using rule 4 (ds)]
+
+State 3:
+
+	ss -> S . ';' ss	(Rule 5)
+	ss -> S .	(Rule 6)
+
+	';'	shift, and go to state 8
+
+	$end	reduce using rule 6 (ss)
+
+State 4:
+
+	p -> ss .	(Rule 2)
+
+	$default	reduce using rule 2 (p)
 
 State 5:
 
@@ -66,45 +66,45 @@ State 5:
 
 State 6:
 
-	ss -> S ';' . ss	(Rule 5)
-
-	S	shift, and go to state 1
-
-	ss	go to state 10
-
-State 7:
-
 	$start -> p $end .	(Rule 0)
 
 	$default	accept
 
-State 8:
+State 7:
 
 	ds -> D ';' . ds	(Rule 3)
 
-	D	shift, and go to state 4
+	D	shift, and go to state 2
 
-	ds	go to state 11
+	ds	go to state 10
+
+State 8:
+
+	ss -> S ';' . ss	(Rule 5)
+
+	S	shift, and go to state 3
+
+	ss	go to state 11
 
 State 9:
 
 	p -> ds ';' . ss	(Rule 1)
 
-	S	shift, and go to state 1
+	S	shift, and go to state 3
 
 	ss	go to state 12
 
 State 10:
 
-	ss -> S ';' ss .	(Rule 5)
-
-	$default	reduce using rule 5 (ss)
-
-State 11:
-
 	ds -> D ';' ds .	(Rule 3)
 
 	$default	reduce using rule 3 (ds)
+
+State 11:
+
+	ss -> S ';' ss .	(Rule 5)
+
+	$default	reduce using rule 5 (ss)
 
 State 12:
 
