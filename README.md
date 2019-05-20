@@ -2,7 +2,19 @@
 
 * [Tutorial at CPAN Parse::Eyapp::debuggingtut](https://metacpan.org/pod/release/CASIANO/Parse-Eyapp-1.182/lib/Parse/Eyapp/debuggingtut.pod)
 
-* Use version 1.182 for this examples. I am not sure if they will work with current versions of [Eyapp](https://metacpan.org/pod/distribution/Parse-Eyapp/eyapp):
+* Be sure you have Perl installed:
+
+	```
+	usuario@ubuntu:~$ perl -v
+
+	This is perl 5, version 26, subversion 1 (v5.26.1) built for x86_64-linux-gnu-thread-multi
+	(with 67 registered patches, see perl -V for more detail)
+	```
+
+* Install last version using `cpan Parse::Eyapp` 
+
+
+* I have used version 1.182 for this examples. I believe they will work with current versions of [Eyapp](https://metacpan.org/pod/distribution/Parse-Eyapp/eyapp):
 
   ```
   $ eyapp -V
@@ -53,3 +65,4 @@
       grammar     The grammar file. If no suffix is given, and the file
                   does not exists, .eyp is added
   ```
+

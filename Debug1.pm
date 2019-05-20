@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 ########################################################################################
 #
 #    This file was generated using Parse::Eyapp version 1.182.
@@ -138,43 +137,44 @@ sub new {
 [
 	{#State 0
 		ACTIONS => {
-			'D' => 3,
-			'S' => 2
+			'S' => 4,
+			'D' => 5
 		},
 		GOTOS => {
-			'ss' => 4,
-			'ds' => 5,
-			'p' => 1
+			'ss' => 1,
+			'p' => 2,
+			'ds' => 3
 		}
 	},
 	{#State 1
+		DEFAULT => -2
+	},
+	{#State 2
 		ACTIONS => {
 			'' => 6
 		}
 	},
-	{#State 2
+	{#State 3
 		ACTIONS => {
 			";" => 7
-		},
-		DEFAULT => -6
-	},
-	{#State 3
-		DEFAULT => -4
+		}
 	},
 	{#State 4
-		DEFAULT => -2
-	},
-	{#State 5
 		ACTIONS => {
+			'' => -6,
 			";" => 8
 		}
+	},
+	{#State 5
+		DEFAULT => -4
 	},
 	{#State 6
 		DEFAULT => 0
 	},
 	{#State 7
 		ACTIONS => {
-			'S' => 2
+			'S' => 4,
+			'D' => 10
 		},
 		GOTOS => {
 			'ss' => 9
@@ -182,21 +182,20 @@ sub new {
 	},
 	{#State 8
 		ACTIONS => {
-			'S' => 2,
-			'D' => 11
+			'S' => 4
 		},
 		GOTOS => {
-			'ss' => 10
+			'ss' => 11
 		}
 	},
 	{#State 9
-		DEFAULT => -5
-	},
-	{#State 10
 		DEFAULT => -1
 	},
-	{#State 11
+	{#State 10
 		DEFAULT => -3
+	},
+	{#State 11
+		DEFAULT => -5
 	}
 ],
     yyrules  =>
